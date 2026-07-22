@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Block World Explorer</title><link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <main class="login-stage" aria-label="Block World Explorer Anmeldung">
+    <img class="scene" src="assets/block-world-login.png" alt="Block World Explorer mit Peru-Weltauswahl">
+    <form class="login-overlay" id="loginForm">
+      <label class="sr-only" for="username">Benutzername</label>
+      <input id="username" name="username" autocomplete="username" placeholder="Benutzername eingeben" required>
+      <label class="sr-only" for="password">Passwort</label>
+      <div class="password-field"><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Passwort eingeben" required><button type="button" id="showPassword" class="show-password" aria-label="Passwort anzeigen"><span class="pixel-eye"></span></button></div>
+      <label class="remember"><input type="checkbox" name="remember"><span>Angemeldet bleiben</span></label>
+      <button class="enter" type="submit" aria-label="Ausgewählte Welt betreten"></button>
+      <p id="message" class="message" role="status"></p>
+    </form>
+    <button id="previousWorld" class="world-arrow previous" type="button" aria-label="Vorherige Welt"></button>
+    <button id="nextWorld" class="world-arrow next" type="button" aria-label="Nächste Welt"></button>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+</body></html>
