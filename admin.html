@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Block World Explorer – Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="world-bg" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <header class="topbar">
+    <div class="brand-cube" aria-hidden="true"><span>BW</span></div>
+    <div class="brand-copy">
+      <strong>BLOCK WORLD EXPLORER</strong>
+      <small>ADMIN-BEREICH</small>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="admin-badge"><span class="crown">♛</span> ADMIN</div>
+    <button id="logoutButton" class="pixel-button danger" type="button">ABMELDEN</button>
+  </header>
+
+  <main class="admin-shell">
+    <section class="stone-panel" aria-labelledby="pageTitle">
+      <div class="panel-head">
+        <div class="avatar admin-avatar" aria-hidden="true"><span>★</span></div>
+        <div>
+          <h1 id="pageTitle">SPIELER-VERWALTUNG</h1>
+          <p>Verwalte Status, Fortschritt und Münzen deiner Entdecker.</p>
+          <div id="connectionStatus" class="connection"><b></b> VERBINDUNG WIRD GEPRÜFT …</div>
+        </div>
+      </div>
+
+      <div class="summary-grid" aria-label="Übersicht">
+        <article><span class="summary-icon player-icon">☺</span><div><small>SPIELER</small><strong id="playerCount">—</strong></div></article>
+        <article><span class="summary-icon coin-icon">●</span><div><small>MÜNZEN INSGESAMT</small><strong id="coinTotal">—</strong></div></article>
+        <article><span class="summary-icon world-icon">◆</span><div><small>FREIGESCHALTETE WELTEN</small><strong id="worldCount">—</strong></div></article>
+      </div>
+
+      <label class="search-box" for="playerSearch">
+        <span aria-hidden="true"></span>
+        <input id="playerSearch" type="search" placeholder="Spielernummer oder Name suchen …" autocomplete="off">
+      </label>
+
+      <div class="list-labels" aria-hidden="true">
+        <span>SPIELER</span><span>STATUS &amp; FORTSCHRITT</span><span>MÜNZEN</span><span>AKTION</span>
+      </div>
+      <div id="playerList" class="player-list" aria-live="polite">
+        <div class="loading-card">SPIELERDATEN WERDEN GELADEN …</div>
+      </div>
+      <p id="pageMessage" class="page-message" role="status"></p>
+    </section>
+  </main>
+
+  <dialog id="editDialog" class="edit-dialog">
+    <form id="editForm" method="dialog">
+      <div class="dialog-titlebar">
+        <div><small>SPIELER BEARBEITEN</small><h2 id="dialogPlayerName">—</h2></div>
+        <button id="closeDialog" class="close-button" type="button" aria-label="Schließen">×</button>
+      </div>
+      <input id="editUserId" type="hidden">
+      <div class="edit-grid">
+        <label><span>ANZEIGENAME</span><input id="editDisplayName" maxlength="60"></label>
+        <label><span>ROLLE</span><select id="editRole"><option value="user">SPIELER</option><option value="admin">ADMIN</option></select></label>
+        <label class="full"><span>LEBEN · JE 20% PRO HERZ</span><input id="editHealth" type="range" min="0" max="100" step="20"><output id="healthOutput"></output></label>
+        <label class="full"><span>ENERGIE · JE 20% PRO FELD</span><input id="editEnergy" type="range" min="0" max="100" step="20"><output id="energyOutput"></output></label>
+        <label><span>LEVEL</span><input id="editLevel" type="number" min="1" max="9999"></label>
+        <label><span>XP IM LEVEL</span><input id="editExperience" type="number" min="0"></label>
+        <label><span>MÜNZEN</span><input id="editCoins" type="number" min="0" max="999999"></label>
+        <label class="world-toggle"><span>WELT</span><input id="editPeru" type="checkbox"><i></i> PERU FREIGESCHALTET</label>
+      </div>
+      <div class="dialog-actions">
+        <button id="cancelEdit" class="pixel-button secondary" type="button">ABBRECHEN</button>
+        <button class="pixel-button save" type="submit">SPEICHERN</button>
+      </div>
+      <p id="dialogMessage" class="dialog-message" role="status"></p>
+    </form>
+  </dialog>
+
+  <template id="playerTemplate">
+    <article class="player-card">
+      <div class="player-identity"><div class="mob-face"><span></span></div><div><strong class="player-number"></strong><small class="player-name"></small><em class="role-chip"></em></div></div>
+      <div class="player-progress">
+        <div class="hearts" aria-label="Leben"></div>
+        <div class="meter-row"><span>ENERGIE</span><div class="segmented energy-meter"></div><b class="energy-value"></b></div>
+        <div class="meter-row"><span class="level-label"></span><div class="xp-track"><i></i></div><b class="xp-value"></b></div>
+      </div>
+      <div class="coins"><span>●</span><strong></strong></div>
+      <button class="pixel-button edit-button" type="button">BEARBEITEN</button>
+    </article>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
