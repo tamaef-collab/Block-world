@@ -31,7 +31,7 @@ function move(direction) {
 
 function usernameToEmail(username) {
   if (username.includes("@")) return username;
-  return `${username.toLowerCase()}@${config.usernameDomain || "users.blockworld.local"}`;
+  return `${username.toLowerCase()}@${config.usernameDomain || "blockworld.local"}`;
 }
 
 previous.addEventListener("click", () => move(-1));
