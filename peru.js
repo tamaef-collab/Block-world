@@ -19,21 +19,37 @@
 
   let selected = +(localStorage.getItem("peru-character") || 0);
   let playerName = localStorage.getItem("peru-name") || "Mein Name";
+
+  // V3.9 gameplay save: reset old demo/test progress exactly once.
+  // The chosen character and player name are kept.
+  const GAME_SAVE_VERSION = "4.0";
+  if(localStorage.getItem("bw-game-save-version") !== GAME_SAVE_VERSION){
+    [
+      "bw-player-state","bw-inventory","bw-adopted-animal","bw-current-plant",
+      "bw-plant-stage","bw-plant-care","bw-animal-care"
+    ].forEach(key=>localStorage.removeItem(key));
+    localStorage.setItem("bw-game-save-version",GAME_SAVE_VERSION);
+  }
+
   let adoptedAnimal = JSON.parse(localStorage.getItem("bw-adopted-animal") || "null");
   let currentPlant = localStorage.getItem("bw-current-plant") || null;
   let plantStage = +(localStorage.getItem("bw-plant-stage") || 0);
 
   const todayKey=()=>new Date().toISOString().slice(0,10);
   const dayNumber=value=>Math.floor(new Date(value+"T00:00:00").getTime()/86400000);
-  const playerState=JSON.parse(localStorage.getItem("bw-player-state") || '{"hp":100,"energy":100,"xp":0,"coins":0}');
+  const playerState=JSON.parse(localStorage.getItem("bw-player-state") || '{"level":1,"hp":100,"energy":100,"xp":0,"coins":0}');
+  playerState.level=Math.max(1,Math.floor(Number(playerState.level ?? 1)));
   playerState.hp=Math.max(0,Math.min(100,Number(playerState.hp ?? 100)));
   playerState.energy=Math.max(0,Math.min(100,Number(playerState.energy ?? 100)));
   playerState.xp=Math.max(0,Number(playerState.xp ?? 0));
   playerState.coins=Math.max(0,Number(playerState.coins ?? 0));
 
-  let inventory=JSON.parse(localStorage.getItem("bw-inventory") || '{"fruits":[],"gems":[]}');
-  inventory.fruits=Array.isArray(inventory.fruits)?inventory.fruits:[];
-  inventory.gems=Array.isArray(inventory.gems)?inventory.gems:[];
+  let inventory=JSON.parse(localStorage.getItem("bw-inventory") || '{"items":[]}');
+  inventory.items=Array.isArray(inventory.items)?inventory.items:[];
+  // Convert older fruit/gem test saves into the new collection format.
+  if(Array.isArray(inventory.fruits)) inventory.fruits.forEach(f=>inventory.items.push({id:f.id||`old-${Date.now()}-${Math.random()}`,key:f.type==="cacao"?"cacao-pod":f.type==="orchid"?"orchid-seed":"waterlily-seed",earnedOn:f.earnedOn||todayKey()}));
+  if(Array.isArray(inventory.gems)) inventory.gems.forEach(g=>inventory.items.push({id:g.id||`old-${Date.now()}-${Math.random()}`,key:(g.kind||"").includes("RUBIN")?"ruby":"emerald",earnedOn:g.earnedOn||todayKey()}));
+  delete inventory.fruits; delete inventory.gems;
 
   let plantCare=JSON.parse(localStorage.getItem("bw-plant-care") || '{"completedDays":[],"actions":{}}');
   plantCare.completedDays=Array.isArray(plantCare.completedDays)?plantCare.completedDays:[];
@@ -47,7 +63,20 @@
   function saveInventory(){ localStorage.setItem("bw-inventory",JSON.stringify(inventory)); renderInventory(); }
   function savePlantCare(){ localStorage.setItem("bw-plant-care",JSON.stringify(plantCare)); }
   function saveAnimalCare(){ localStorage.setItem("bw-animal-care",JSON.stringify(animalCare)); }
-  function addXp(amount=20){ playerState.xp+=amount; savePlayerState(); }
+  const xpNeededForLevel=level=>Math.max(100,Math.floor(level)*100);
+  function normalizeLevelProgress(){
+    let needed=xpNeededForLevel(playerState.level);
+    while(playerState.xp>=needed){
+      playerState.xp-=needed;
+      playerState.level+=1;
+      needed=xpNeededForLevel(playerState.level);
+    }
+  }
+  function addXp(amount=20){
+    playerState.xp+=Math.max(0,Number(amount)||0);
+    normalizeLevelProgress();
+    savePlayerState();
+  }
   function addCoins(amount){ playerState.coins+=amount; savePlayerState(); }
   function loseHp(amount=10){
     playerState.hp=Math.max(0,playerState.hp-amount);
@@ -109,32 +138,57 @@
   $$(".overlay").forEach(o=>o.addEventListener("mousedown",e=>{if(e.target===o) close(o.id)}));
 
 
-  const fruitLabels={cacao:"KAKAOFRUCHT",orchid:"ORCHIDEENSAMEN",waterlily:"SEEROSENFRUCHT"};
-  const fruitImages={cacao:"cacao-preview.png",orchid:"orchid-preview.png",waterlily:"waterlily-preview.png"};
-
+  const COLLECTION_CATALOG=[
+    {key:"gold-mask",label:"GOLDMASKE",group:"SCHÄTZE",path:"treasure/gold-mask.png"},
+    {key:"tumi-knife",label:"TUMI-MESSER",group:"SCHÄTZE",path:"treasure/tumi-knife.png"},
+    {key:"sun-disc",label:"SONNENSCHEIBE",group:"SCHÄTZE",path:"treasure/sun-disc.png"},
+    {key:"inca-coin",label:"INKA-MÜNZE",group:"SCHÄTZE",path:"treasure/inca-coin.png"},
+    {key:"pottery",label:"KERAMIKGEFÄSS",group:"SCHÄTZE",path:"treasure/pottery.png"},
+    {key:"wood-idol",label:"HOLZIDOLE",group:"SCHÄTZE",path:"treasure/wood-idol.png"},
+    {key:"mystic-key",label:"GEHEIMER SCHLÜSSEL",group:"SCHÄTZE",path:"treasure/mystic-key.png"},
+    {key:"royal-feather",label:"KÖNIGSFEDER",group:"SCHÄTZE",path:"treasure/royal-feather.png"},
+    {key:"ancient-shell",label:"ALTE MUSCHEL",group:"SCHÄTZE",path:"treasure/ancient-shell.png"},
+    {key:"emerald",label:"SMARAGD",group:"EDELSTEINE",path:"treasure/emerald.png"},
+    {key:"ruby",label:"RUBIN",group:"EDELSTEINE",path:"treasure/ruby.png"},
+    {key:"llama-toy",label:"LAMA-SPIELZEUG",group:"SPIELZEUG",path:"toys/llama-toy.png"},
+    {key:"teddy-bear",label:"TEDDYBÄR",group:"SPIELZEUG",path:"toys/teddy-bear.png"},
+    {key:"wooden-sword",label:"HOLZSCHWERT",group:"SPIELZEUG",path:"toys/wooden-sword.png"},
+    {key:"cacao-pod",label:"KAKAOFRUCHT",group:"ERNTE",path:"fruits/cacao-pod.png"},
+    {key:"banana",label:"BANANE",group:"ERNTE",path:"fruits/banana.png"},
+    {key:"avocado",label:"AVOCADO",group:"ERNTE",path:"fruits/avocado.png"},
+    {key:"mango",label:"MANGO",group:"ERNTE",path:"fruits/mango.png"},
+    {key:"coffee-cherries",label:"KAFFEEKIRSCHEN",group:"ERNTE",path:"fruits/coffee-cherries.png"},
+    {key:"corn",label:"MAIS",group:"ERNTE",path:"fruits/corn.png"},
+    {key:"passion-fruit",label:"MARACUJA",group:"ERNTE",path:"fruits/passion-fruit.png"},
+    {key:"acai-berry",label:"AÇAÍ-BEEREN",group:"ERNTE",path:"fruits/acai-berry.png"},
+    {key:"orchid-seed",label:"ORCHIDEENSAMEN",group:"ERNTE",path:"fruits/orchid-seed.png"},
+    {key:"waterlily-seed",label:"SEEROSENSAMEN",group:"ERNTE",path:"fruits/waterlily-seed.png"}
+  ];
+  const CHEST_KEYS=COLLECTION_CATALOG.filter(x=>x.group!=="ERNTE").map(x=>x.key);
+  const PLANT_REWARDS={cacao:["cacao-pod","banana","avocado","mango","coffee-cherries","corn","passion-fruit","acai-berry"],orchid:["orchid-seed"],waterlily:["waterlily-seed"]};
+  let pendingChestReward=null;
+  const catalogItem=key=>COLLECTION_CATALOG.find(x=>x.key===key);
+  function addCollectionItem(key){
+    const item=catalogItem(key); if(!item) return null;
+    inventory.items.push({id:`item-${Date.now()}-${Math.random().toString(16).slice(2)}`,key,earnedOn:todayKey()});
+    saveInventory(); return item;
+  }
   function renderInventory(){
-    const grid=$("#collectionGrid");
-    if(!grid) return;
-    const items=[
-      ...inventory.fruits.map(item=>({kind:"fruit",label:fruitLabels[item.type]||"AMAZONASFRUCHT",image:fruitImages[item.type]})),
-      ...inventory.gems.map(item=>({kind:"gem",label:item.kind||"EDELSTEIN"}))
-    ];
+    const grid=$("#collectionGrid"); if(!grid) return;
+    const counts={}; inventory.items.forEach(i=>counts[i.key]=(counts[i.key]||0)+1);
     grid.innerHTML="";
-    $("#collectionEmpty").classList.toggle("hidden",items.length>0);
-    items.forEach(item=>{
+    COLLECTION_CATALOG.forEach(item=>{
+      const unlocked=(counts[item.key]||0)>0;
       const article=document.createElement("article");
-      article.className=`inventory-slot ${item.kind}`;
-      article.innerHTML=item.kind==="fruit"
-        ? `<div class="slot-art"><img src="assets/${item.image}" alt=""></div><span>${item.label}</span>`
-        : `<div class="slot-art gem-art"><b>◆</b></div><span>${item.label}</span>`;
+      article.className=`inventory-slot ${unlocked?"unlocked":"locked"}`;
+      article.title=unlocked?`${item.label} × ${counts[item.key]}`:"NOCH NICHT ENTDECKT";
+      article.innerHTML=`<div class="slot-art"><img src="assets/items/${item.path}" alt="${unlocked?item.label:""}"></div><span>${unlocked?item.label:"???"}</span>${unlocked&&counts[item.key]>1?`<i>×${counts[item.key]}</i>`:""}`;
       grid.appendChild(article);
     });
-    for(let i=items.length;i<Math.max(8,Math.ceil((items.length+1)/4)*4);i++){
-      const empty=document.createElement("article");
-      empty.className="inventory-slot empty";
-      empty.innerHTML="<div class='slot-art'><b>+</b></div><span>FREIER PLATZ</span>";
-      grid.appendChild(empty);
-    }
+    const discovered=COLLECTION_CATALOG.filter(i=>counts[i.key]).length;
+    $("#collectionProgress").textContent=`${discovered} / ${COLLECTION_CATALOG.length} ENTDECKT`;
+    $("#bagCount").textContent=String(discovered);
+    $("#bagCount").classList.toggle("hidden",discovered===0);
   }
 
   function syncCharacter(){
@@ -245,14 +299,15 @@
     const energy=$("#energyBar"), xp=$("#xpBar");
     energy.innerHTML=""; xp.innerHTML="";
     const energySegments=Math.round(playerState.energy/12.5);
-    const xpLevel=playerState.xp%500;
-    const xpSegments=Math.round(xpLevel/62.5);
+    const xpNeeded=xpNeededForLevel(playerState.level);
+    const xpSegments=Math.round((playerState.xp/xpNeeded)*8);
     for(let i=0;i<8;i++){
       energy.insertAdjacentHTML("beforeend",`<i class="${i<energySegments?"on":""}"></i>`);
       xp.insertAdjacentHTML("beforeend",`<i class="${i<xpSegments?"on":""}"></i>`);
     }
     $("#energyText").textContent=`${playerState.energy}%`;
-    $("#xpText").textContent=`${xpLevel} / 500`;
+    $("#levelText").textContent=`LV ${playerState.level}`;
+    $("#xpText").textContent=`${playerState.xp} / ${xpNeeded}`;
     $("#coinText").textContent=String(playerState.coins);
   }
 
@@ -414,6 +469,11 @@
     const cycle=Math.floor(keptDays/30);
     if(cycle>animalCare.lastChestCycle){
       $("#chestAnimalText").textContent=`${adoptedAnimal.name.toUpperCase()} HAT DIR NACH ${cycle*30} TAGEN EINE SCHATZTRUHE GEBRACHT.`;
+      pendingChestReward=CHEST_KEYS[Math.floor(Math.random()*CHEST_KEYS.length)];
+      const reward=catalogItem(pendingChestReward);
+      $("#chestRewardImage").src=`assets/items/${reward.path}`;
+      $("#chestRewardPop").src=`assets/items/${reward.path}`;
+      $("#chestRewardName").textContent=reward.label;
       $("#chestOverlay").classList.remove("hidden");
       $("#claimChest").dataset.cycle=String(cycle);
     }
@@ -425,10 +485,10 @@
     animalCare.lastChestCycle=cycle;
     saveAnimalCare();
     addCoins(100);
-    inventory.gems.push({id:`gem-${Date.now()}`,kind:["AMAZONIT","RUBIN","MONDSTEIN","SMARAGD"][inventory.gems.length%4],earnedOn:todayKey()});
-    saveInventory();
+    const reward=addCollectionItem(pendingChestReward || CHEST_KEYS[Math.floor(Math.random()*CHEST_KEYS.length)]);
+    pendingChestReward=null;
     $("#chestOverlay").classList.add("hidden");
-    $("#gameMessage").textContent="SCHATZ GEÖFFNET: +100 MÜNZEN UND 1 EDELSTEIN!";
+    $("#gameMessage").textContent=`SCHATZ GEÖFFNET: +100 MÜNZEN UND ${reward.label}!`;
   });
 
   function runAction(kind){
@@ -451,9 +511,9 @@
         return;
       }
       addCoins(100);
-      inventory.fruits.push({id:`fruit-${Date.now()}`,type:activeItem,earnedOn:todayKey()});
-      saveInventory();
-      $("#gameMessage").textContent="ERNTE GESCHAFFT: +100 MÜNZEN UND 1 FRUCHT FÜR DEN RUCKSACK!";
+      const choices=PLANT_REWARDS[activeItem] || ["cacao-pod"];
+      const reward=addCollectionItem(choices[Math.floor(Math.random()*choices.length)]);
+      $("#gameMessage").textContent=`ERNTE GESCHAFFT: +100 MÜNZEN UND ${reward.label} FÜR DEN RUCKSACK!`;
       currentPlant=null; plantStage=0;
       plantCare={completedDays:[],actions:{}};
       savePlantCare();

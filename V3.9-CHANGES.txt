@@ -1,0 +1,13 @@
+V3.9 NEW GAME STATE AND LEVEL SYSTEM
+
+- First gameplay save starts at LV 1.
+- HP starts full: 100 / 100.
+- Energy starts full: 100%.
+- EXP starts at 0 / 100.
+- Coins start at 0 (removed old 128 demo value).
+- Required EXP is current level x 100:
+  LV1 to LV2 = 100, LV2 to LV3 = 200, LV3 to LV4 = 300, etc.
+- Excess EXP carries into the next level.
+- Old demo gameplay data is cleared once when V3.9 first loads.
+- Character selection and player name are preserved.
+- Inventory, adopted animal, plant progress and care progress start empty.

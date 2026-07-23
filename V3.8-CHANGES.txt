@@ -1,0 +1,6 @@
+V3.8 FINAL MAP ENTRY ADJUSTMENT
+- Moved the plant game-entry tree away from the Amazon treehouse roof and all location labels.
+- The AMAZON landmark remains a separate map destination.
+- Replaced the conspicuous glow with a restrained rear/downward pixel shadow.
+- Tree and dolphin remain slightly brighter than the background so they read as clickable.
+- Hover/focus adds only a small brightness and scale increase.

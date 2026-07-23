@@ -774,16 +774,16 @@ body{font-family:"Lucida Console","Monaco","Courier New",monospace;image-renderi
 }
 
 
-/* ===== v3.7 final: real PNG entrance sprites + subtle permanent highlight ===== */
+/* ===== v3.8: real PNG entrances, relocated tree + restrained floating shadow ===== */
 .entry-ring,.entry-ring::before,.entry-ring::after{display:none!important}
 .hotspot::before,.hotspot::after{display:none!important;content:none!important}
 .hotspot{overflow:visible!important;background:transparent!important;border:0!important;padding:0!important;transform:none!important}
 .hotspot .entry-sprite{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important;image-rendering:pixelated;transform-origin:50% 72%;pointer-events:none}
-.plant-hotspot{left:84.8%!important;top:16.5%!important;width:9.2%!important;height:17.2%!important;z-index:16!important}
+.plant-hotspot{left:86.8%!important;top:63.0%!important;width:8.7%!important;height:15.8%!important;z-index:16!important}
 .animal-hotspot{left:74.55%!important;top:53.05%!important;width:4.65%!important;height:7.05%!important;z-index:16!important}
-.tree-entry-sprite{filter:brightness(1.08) saturate(1.06) drop-shadow(0 0 2px rgba(188,255,92,.78)) drop-shadow(0 2px 1px rgba(20,44,7,.85));animation:treeEntranceIdle 2.8s steps(4,end) infinite}
-.dolphin-entry-sprite{filter:brightness(1.10) saturate(1.08) drop-shadow(0 0 2px rgba(255,166,222,.82)) drop-shadow(0 2px 1px rgba(49,20,51,.8));animation:dolphinEntranceIdle 2.1s steps(4,end) infinite}
-.hotspot:hover .entry-sprite,.hotspot:focus-visible .entry-sprite{filter:brightness(1.18) saturate(1.14) drop-shadow(0 0 3px rgba(255,240,153,.92)) drop-shadow(0 3px 2px rgba(21,21,12,.88));transform:scale(1.025)}
+.tree-entry-sprite{filter:brightness(1.045) saturate(1.03) drop-shadow(3px 5px 2px rgba(10,24,5,.72)) drop-shadow(0 0 1px rgba(211,255,154,.42));animation:treeEntranceIdle 2.8s steps(4,end) infinite}
+.dolphin-entry-sprite{filter:brightness(1.07) saturate(1.05) drop-shadow(2px 4px 2px rgba(32,17,46,.68)) drop-shadow(0 0 1px rgba(255,190,226,.46));animation:dolphinEntranceIdle 2.1s steps(4,end) infinite}
+.hotspot:hover .entry-sprite,.hotspot:focus-visible .entry-sprite{filter:brightness(1.13) saturate(1.09) drop-shadow(3px 6px 2px rgba(18,24,10,.78)) drop-shadow(0 0 2px rgba(255,239,170,.62));transform:scale(1.02)}
 .hotspot:focus-visible{outline:2px solid #ffe37a;outline-offset:4px}
 .hotspot > span:not(.entry-ring){bottom:-12%!important;opacity:0!important;transition:none!important}
 .hotspot:hover > span:not(.entry-ring),.hotspot:focus-visible > span:not(.entry-ring){opacity:1!important}
@@ -809,3 +809,24 @@ body{font-family:"Lucida Console","Monaco","Courier New",monospace;image-renderi
 @keyframes chestOpenShow{to{opacity:1}}
 @keyframes chestOpenBounce{0%{transform:translate(-50%,0) scaleY(.92)}55%{transform:translate(-50%,-8px) scaleY(1.04)}100%{transform:translate(-50%,0) scaleY(1)}}
 @keyframes rewardPop{0%{opacity:0;transform:translateY(35px) scale(.5)}55%{opacity:1;transform:translateY(-34px) scale(1.08)}100%{opacity:1;transform:translateY(-18px) scale(1)}}
+
+
+/* ===== v4.0 illustrated backpack + silhouette collection ===== */
+.bag-button{left:auto!important;right:3.2%!important;bottom:3.6%!important;width:6.2%!important;min-width:58px!important;aspect-ratio:1!important;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;padding:0!important;filter:drop-shadow(4px 5px 0 #0008)}
+.bag-button img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;transition:transform .15s steps(2,end),filter .15s}
+.bag-button:hover img,.bag-button:focus-visible img{transform:translateY(-4px) scale(1.05);filter:brightness(1.12)}
+.bag-button small{top:94%!important;padding:3px 7px;background:#1a0e07;border:2px solid #d6a43d;color:#ffe39a!important;font-size:clamp(7px,.55vw,11px)!important;white-space:nowrap}
+.bag-button>span{position:absolute;right:-5px;top:-2px;min-width:22px;height:22px;padding:2px 5px;background:#c9362c;border:3px solid #2a110b;color:#fff;font-size:11px;font-weight:900;line-height:13px}
+.backpack-shell{background:repeating-linear-gradient(90deg,#8b552b 0 16px,#754320 17px 32px)!important;border-color:#2a170d!important;outline-color:#c48b38!important;box-shadow:inset 0 0 0 5px #b87839,0 8px 0 #0005!important}
+.backpack-grid{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important;max-height:56vh;overflow:auto;padding:5px}
+.inventory-slot{position:relative;min-height:112px!important;padding:8px 5px!important;background:#2a211b!important;border:4px solid #21130b!important;outline:2px solid #8e642c!important;box-shadow:inset 0 0 0 2px #55402d!important}
+.inventory-slot .slot-art{width:58px!important;height:58px!important;background:#181512!important;border:2px solid #4f4336!important}
+.inventory-slot img{width:100%!important;height:100%!important;object-fit:contain!important;image-rendering:pixelated!important}
+.inventory-slot.locked img{filter:grayscale(1) brightness(0.22)!important;opacity:.72!important}
+.inventory-slot.locked span{color:#777!important}
+.inventory-slot.unlocked{background:#32483b!important;outline-color:#d2a33e!important}
+.inventory-slot.unlocked img{filter:none!important;opacity:1!important}
+.inventory-slot span{font-size:9px!important;line-height:1.15!important;color:#f5dea0!important}
+.inventory-slot i{position:absolute;right:5px;top:5px;padding:2px 4px;background:#1b0f08;border:2px solid #d1a03d;color:#fff1b0;font-size:9px;font-style:normal;font-weight:900}
+.backpack-progress{text-align:center;margin:14px 0 0;color:#ffe3a3;font-weight:900;text-shadow:2px 2px #3b1d0b}
+@media(max-width:760px){.backpack-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.bag-button{width:70px!important;right:16px!important}}

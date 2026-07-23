@@ -26,7 +26,7 @@
         <img class="entry-sprite dolphin-entry-sprite" src="assets/animal-entry-dolphin.png" alt="">
         <span>TIERFREUNDE</span>
       </button>
-      <button class="bag-button" id="bagButton" type="button" aria-label="Sammlung öffnen"><b>▣</b><small>SAMMLUNG</small></button>
+      <button class="bag-button" id="bagButton" type="button" aria-label="Sammlung öffnen"><img src="assets/items/ui/backpack.png" alt=""><small>SAMMLUNG</small><span id="bagCount">0</span></button>
 
       <div class="walker" id="walker" aria-hidden="true"><div id="walkerSprite"></div><i></i></div>
       <div class="route-message" id="routeMessage">WÄHLE EIN REISEZIEL</div>
@@ -48,10 +48,10 @@
       <header class="game-hud" aria-label="Spielstatus">
         <div class="hud-brand"><span class="grass-cube" aria-hidden="true"></span><strong>BLOCK<br>WORLD</strong></div>
         <div class="hud-player"><img id="hudPortrait" src="assets/01-white-shirt-man.png" alt=""><span id="hudName">BIBU</span></div>
-        <div class="hud-stat"><b>HP</b><div class="hearts" id="hudHearts" aria-label="5 Lebenspunkte"></div></div>
-        <div class="hud-stat grow"><b>ENERGY</b><div class="segment-bar energy" id="energyBar"></div><em id="energyText">80%</em></div>
-        <div class="hud-stat grow"><b>XP</b><div class="segment-bar xp" id="xpBar"></div><em id="xpText">340 / 500</em></div>
-        <div class="hud-coins"><span>●</span><b id="coinText">128</b></div>
+        <div class="hud-stat"><b>HP</b><div class="hearts" id="hudHearts" aria-label="100 Prozent Lebenspunkte"></div></div>
+        <div class="hud-stat grow"><b>ENERGY</b><div class="segment-bar energy" id="energyBar"></div><em id="energyText">100%</em></div>
+        <div class="hud-stat grow xp-stat"><b id="levelText">LV 1</b><div class="segment-bar xp" id="xpBar"></div><em id="xpText">0 / 100</em></div>
+        <div class="hud-coins"><span>●</span><b id="coinText">0</b></div>
       </header>
 
       <div class="game-panel">
@@ -73,7 +73,7 @@
       <div class="backpack-shell">
         <div class="backpack-flap"><span></span><b>DEIN RUCKSACK</b><span></span></div>
         <div class="backpack-grid" id="collectionGrid" aria-live="polite"></div>
-        <p class="backpack-empty" id="collectionEmpty">NOCH KEINE FUNDSTÜCKE</p>
+        <p class="backpack-progress" id="collectionProgress">0 / 23 ENTDECKT</p>
       </div>
     </section>
   </div>
@@ -85,14 +85,14 @@
         <img class="chest-sprite chest-open" src="assets/treasure-chest-open.png" alt="">
         <img class="reward-pop reward-pop-coin r1" src="assets/reward-coin.png" alt="">
         <img class="reward-pop reward-pop-coin r2" src="assets/reward-coin.png" alt="">
-        <img class="reward-pop reward-pop-gem r3" src="assets/reward-gem.png" alt="">
+        <img class="reward-pop reward-pop-gem r3" id="chestRewardPop" src="assets/items/treasure/emerald.png" alt="">
       </div>
       <small>30 TAGE ZUSAMMEN</small>
       <h1 id="chestTitle">EIN SCHATZ IST DA!</h1>
       <p id="chestAnimalText">DEIN TIER HAT DIR EINE SCHATZTRUHE GEBRACHT.</p>
       <div class="reward-row">
         <article><img src="assets/reward-coin.png" alt=""><b>100</b><small>MÜNZEN</small></article>
-        <article><img src="assets/reward-gem.png" alt=""><b>1</b><small>EDELSTEIN</small></article>
+        <article><img id="chestRewardImage" src="assets/items/treasure/emerald.png" alt=""><b>1</b><small id="chestRewardName">FUNDSTÜCK</small></article>
       </div>
       <button class="block-button treasure-claim" id="claimChest" type="button">BELOHNUNG NEHMEN</button>
     </section>

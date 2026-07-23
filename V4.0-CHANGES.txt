@@ -1,0 +1,10 @@
+BLOCK WORLD PERU – V4.0
+
+- Replaced the lower-right collection control with a hand-drawn pixel backpack PNG.
+- Added 24 independent transparent PNG collectible assets; no sprite sheet and no cutting.
+- Backpack now displays the complete collection catalogue from the beginning.
+- Locked items appear as dark grey silhouettes with hidden names.
+- Collected items light up in full colour and show duplicate counts.
+- Treasure chests now award 100 coins plus one random ancient object, gemstone or toy.
+- Plant harvests now award 100 coins plus a corresponding fruit or seed.
+- Collection progress is saved in localStorage and displayed in the backpack.
