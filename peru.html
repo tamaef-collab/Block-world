@@ -3,88 +3,101 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#06264a">
+  <meta name="theme-color" content="#071d34">
   <title>Block World – Peru</title>
   <link rel="stylesheet" href="peru.css">
 </head>
 <body>
   <main class="stage">
-    <section class="map" id="map">
-      <img class="map-art" src="assets/peru-map.png" alt="Abenteuerkarte von Peru">
+    <section class="map" id="map" aria-label="Block World Peru Karte">
+      <img class="map-art" src="assets/peru-map.png" alt="Block World Karte von Peru">
 
-      <div class="game-hud" aria-label="Spielstatus">
-        <div class="hud-brand" aria-label="Block World"><i></i><strong>BLOCK<br>WORLD</strong></div>
-        <div class="player-hud" aria-label="Spielerprofil">
-          <button class="profile-button" id="profileButton" aria-label="Figur bearbeiten">
-            <span class="portrait-cleaner"><img id="profilePortrait" src="assets/01-white-shirt-man.png" alt=""></span>
-          </button>
-          <button class="name-button" id="nameButton" aria-label="Name bearbeiten">
-            <span id="playerName">Mein Name</span><span class="pencil" aria-hidden="true">✎</span>
-          </button>
-        </div>
-        <div class="hud-stat health-stat"><b>HP</b><span class="hearts" aria-label="fünf Lebenspunkte">♥ ♥ ♥ ♥ ♥</span></div>
-        <div class="hud-stat energy-stat"><b>ENERGY</b><span class="meter"><i></i></span><strong>80%</strong></div>
-        <div class="hud-stat xp-stat"><b>XP</b><span class="meter"><i id="xpBar"></i></span><strong id="xpText">0 / 500</strong></div>
-        <div class="hud-stat coin-stat"><span class="coin-icon">S</span><strong id="coinText">0</strong></div>
-      </div>
+      <button class="profile-button" id="profileButton" type="button" aria-label="Figur bearbeiten">
+        <img id="profilePortrait" src="assets/01-white-shirt-man.png" alt="">
+      </button>
+      <button class="name-button" id="nameButton" type="button"><span id="playerName">Mein Name</span><span aria-hidden="true">✎</span></button>
 
       <div id="landmarks"></div>
-
-      <button class="hotspot tree-hotspot" id="treeHotspot" aria-label="Pflanzenspiel öffnen">
-        <img src="assets/tree-control-v2.png" onerror="this.src='assets/tree-control.png'" alt="Großer Amazonasbaum"><span>PFLANZENSPIEL</span>
+      <button class="hotspot plant-hotspot" id="plantHotspot" type="button" aria-label="Pflanzengarten öffnen">
+        <img class="entry-sprite tree-entry-sprite" src="assets/plant-entry-tree.png" alt="">
+        <span>PFLANZENGARTEN</span>
       </button>
-      <button class="hotspot dolphin-hotspot" id="dolphinHotspot" aria-label="Tierspiel öffnen">
-        <img src="assets/dolphin-control-v2.png" onerror="this.src='assets/dolphin-control.png'" alt="Rosa Flussdelfin"><span>TIERSPIEL</span>
+      <button class="hotspot animal-hotspot" id="animalHotspot" type="button" aria-label="Tierfreunde öffnen">
+        <img class="entry-sprite dolphin-entry-sprite" src="assets/animal-entry-dolphin.png" alt="">
+        <span>TIERFREUNDE</span>
       </button>
-
-      <button class="bag-button" id="bagButton" aria-label="Rucksack und Sammlung öffnen">
-        <span class="bag-art" aria-hidden="true"></span><small>RUCKSACK</small>
-      </button>
+      <button class="bag-button" id="bagButton" type="button" aria-label="Sammlung öffnen"><b>▣</b><small>SAMMLUNG</small></button>
 
       <div class="walker" id="walker" aria-hidden="true"><div id="walkerSprite"></div><i></i></div>
-      <div class="route-message" id="routeMessage">Wähle ein Reiseziel.</div>
+      <div class="route-message" id="routeMessage">WÄHLE EIN REISEZIEL</div>
     </section>
   </main>
 
   <div class="overlay hidden" id="characterOverlay">
-    <section class="pixel-panel character-panel" role="dialog" aria-modal="true" aria-labelledby="characterTitle">
-      <button class="close-button" data-close="characterOverlay" aria-label="Schließen">×</button>
-      <p class="eyebrow">DEIN ABENTEUER</p>
-      <h1 id="characterTitle">Wähle deine Figur</h1>
+    <section class="block-panel character-panel" role="dialog" aria-modal="true" aria-labelledby="characterTitle">
+      <button class="block-close" data-close="characterOverlay" type="button" aria-label="Schließen">×</button>
+      <div class="panel-title"><small>DEIN ABENTEUER</small><h1 id="characterTitle">WÄHLE DEINE FIGUR</h1></div>
       <div class="character-grid" id="characterGrid"></div>
-      <div class="name-editor">
-        <label for="nameInput">Wie heißt deine Figur?</label>
-        <div><input id="nameInput" maxlength="18" autocomplete="off" placeholder="Name eingeben"><button id="saveName">SPEICHERN</button></div>
-      </div>
+      <div class="name-editor"><label for="nameInput">NAME</label><input id="nameInput" maxlength="18" autocomplete="off"><button id="saveName" class="block-button" type="button">SPEICHERN</button></div>
     </section>
   </div>
 
   <div class="overlay hidden" id="gameOverlay">
-    <section class="console" role="dialog" aria-modal="true">
-      <button class="close-button console-close" data-close="gameOverlay" aria-label="Schließen">×</button>
-      <div class="console-brand">BLOCK WORLD · POCKET</div>
-      <div class="lcd-shell">
-        <div class="lcd-top"><b id="gameTitle">AMAZONAS-FREUND</b><span id="gameDay">TAG 01</span></div>
-        <canvas id="gameCanvas" width="240" height="152" aria-label="Animiertes Pixelspiel"></canvas>
-        <div class="lcd-stats" id="lcdStats"></div>
+    <section class="game-shell" role="dialog" aria-modal="true" aria-labelledby="gameHeading">
+      <button class="block-close" data-close="gameOverlay" type="button" aria-label="Schließen">×</button>
+      <header class="game-hud" aria-label="Spielstatus">
+        <div class="hud-brand"><span class="grass-cube" aria-hidden="true"></span><strong>BLOCK<br>WORLD</strong></div>
+        <div class="hud-player"><img id="hudPortrait" src="assets/01-white-shirt-man.png" alt=""><span id="hudName">BIBU</span></div>
+        <div class="hud-stat"><b>HP</b><div class="hearts" id="hudHearts" aria-label="5 Lebenspunkte"></div></div>
+        <div class="hud-stat grow"><b>ENERGY</b><div class="segment-bar energy" id="energyBar"></div><em id="energyText">80%</em></div>
+        <div class="hud-stat grow"><b>XP</b><div class="segment-bar xp" id="xpBar"></div><em id="xpText">340 / 500</em></div>
+        <div class="hud-coins"><span>●</span><b id="coinText">128</b></div>
+      </header>
+
+      <div class="game-panel">
+        <div class="game-panel-title"><span id="gameHeading">AMAZONAS</span><small id="gameSubtitle">WÄHLE DEIN ABENTEUER</small></div>
+        <div id="selectionView" class="selection-view"></div>
+        <div id="playView" class="play-view hidden">
+          <canvas id="gameCanvas" width="768" height="432" aria-label="Block World Minispiel"></canvas>
+          <div class="action-bar" id="actionBar"></div>
+        </div>
+        <p class="game-message" id="gameMessage" aria-live="polite"></p>
       </div>
-      <div class="console-controls" id="gameControls"></div>
-      <p class="console-hint" id="consoleHint">Klicke auch direkt auf die Figur im Bildschirm.</p>
     </section>
   </div>
 
   <div class="overlay hidden" id="bagOverlay">
-    <section class="pixel-panel bag-panel" role="dialog" aria-modal="true">
-      <button class="close-button" data-close="bagOverlay" aria-label="Schließen">×</button>
-      <div class="collection-heading"><span class="large-backpack" aria-hidden="true"><i></i></span><div><p class="eyebrow">DEINE FUNDSTÜCKE</p><h1>Abenteurer-Rucksack</h1></div></div>
-      <div class="collection">
-        <article class="collect-flower"><b><i></i></b><span>Amazonasblüte</span></article>
-        <article class="collect-cacao"><b><i></i></b><span>Kakaofrucht</span></article>
-        <article class="collect-pearl"><b><i></i></b><span>Flussperle</span></article>
-        <article class="locked"><b><i>?</i></b><span>Noch verborgen</span></article>
+    <section class="block-panel bag-panel" role="dialog" aria-modal="true">
+      <button class="block-close" data-close="bagOverlay" type="button" aria-label="Schließen">×</button>
+      <div class="panel-title"><small>DEINE FUNDSTÜCKE</small><h1>SAMMLUNG</h1></div>
+      <div class="backpack-shell">
+        <div class="backpack-flap"><span></span><b>DEIN RUCKSACK</b><span></span></div>
+        <div class="backpack-grid" id="collectionGrid" aria-live="polite"></div>
+        <p class="backpack-empty" id="collectionEmpty">NOCH KEINE FUNDSTÜCKE</p>
       </div>
     </section>
   </div>
+
+  <div class="overlay hidden chest-scene" id="chestOverlay">
+    <section class="treasure-panel" role="dialog" aria-modal="true" aria-labelledby="chestTitle">
+      <div class="pixel-reward-stage" aria-hidden="true">
+        <img class="chest-sprite chest-closed" src="assets/treasure-chest-closed.png" alt="">
+        <img class="chest-sprite chest-open" src="assets/treasure-chest-open.png" alt="">
+        <img class="reward-pop reward-pop-coin r1" src="assets/reward-coin.png" alt="">
+        <img class="reward-pop reward-pop-coin r2" src="assets/reward-coin.png" alt="">
+        <img class="reward-pop reward-pop-gem r3" src="assets/reward-gem.png" alt="">
+      </div>
+      <small>30 TAGE ZUSAMMEN</small>
+      <h1 id="chestTitle">EIN SCHATZ IST DA!</h1>
+      <p id="chestAnimalText">DEIN TIER HAT DIR EINE SCHATZTRUHE GEBRACHT.</p>
+      <div class="reward-row">
+        <article><img src="assets/reward-coin.png" alt=""><b>100</b><small>MÜNZEN</small></article>
+        <article><img src="assets/reward-gem.png" alt=""><b>1</b><small>EDELSTEIN</small></article>
+      </div>
+      <button class="block-button treasure-claim" id="claimChest" type="button">BELOHNUNG NEHMEN</button>
+    </section>
+  </div>
+
   <script src="peru.js"></script>
 </body>
 </html>

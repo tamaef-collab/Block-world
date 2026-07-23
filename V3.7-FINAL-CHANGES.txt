@@ -1,0 +1,9 @@
+BLOCK WORLD PERU v3.7
+
+- Uses the original Peru map unchanged.
+- Replaced all CSS-built map entrance graphics with real transparent PNG sprites.
+- Pink dolphin is extracted from the original map and aligned to its original location.
+- Added a separate Amazon tree game entrance away from the AMAZON landmark label.
+- Dolphin and tree have subtle permanent highlights and slightly stronger hover feedback.
+- Replaced the rejected CSS-built treasure chest with real pixel-art PNG sprites and reward sprites.
+- Preserved progression, inventory, animal/plant care, travel, HUD, and all earlier gameplay corrections.

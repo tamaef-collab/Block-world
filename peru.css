@@ -1,217 +1,811 @@
-:root{--gold:#f3bb2d;--ink:#180e06;--cream:#fff0b1;--lcd:#aec391;--lcd-dark:#24352b}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#052447}button,input{font:inherit}button{color:inherit}
-.stage{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 25%,#14689b,#041a35 72%)}
-.map{position:relative;width:min(100vw,177.68vh);aspect-ratio:1672/941;overflow:hidden;isolation:isolate;box-shadow:0 22px 80px #000b}.map-art{position:absolute;inset:0;width:100%;height:100%}
-.profile-button,.name-button{position:absolute;z-index:20;border:0;background:transparent;cursor:pointer}.profile-button{left:17.7%;top:2.15%;width:5.05%;height:7.35%;overflow:hidden}.profile-button img{position:absolute;width:72%;height:auto;left:14%;top:-20%;filter:drop-shadow(1px 2px #0008)}.name-button{left:22.55%;top:2.05%;height:7.05%;width:10.6%;display:flex;align-items:center;justify-content:center;gap:.55vw;background:linear-gradient(90deg,#181108 0 88%,transparent);border-left:1px solid #8e682b;border-right:1px solid #4d3517;color:#fff8db;font:700 clamp(7px,.96vw,17px) "Courier New",monospace;text-shadow:2px 2px #000}.pencil{color:#f1c75b;font-size:1.35em;transform:rotate(-10deg)}.profile-button:hover,.name-button:hover{filter:brightness(1.3)}
-.landmark{position:absolute;z-index:12;width:8%;height:8%;transform:translate(-50%,-50%);border:0;background:transparent;cursor:pointer}.landmark span{position:absolute;left:50%;top:-15%;transform:translate(-50%,-5px);opacity:0;padding:.3vw .55vw;background:#160f09e8;border:1px solid var(--gold);font:700 clamp(6px,.62vw,11px) Arial;color:var(--cream);white-space:nowrap;transition:.15s}.landmark:hover span,.landmark:focus-visible span{opacity:1;transform:translate(-50%,0)}.landmark:hover{filter:drop-shadow(0 0 8px #fff9b0) brightness(1.18)}
-.hotspot{position:absolute;z-index:14;border:0;background:transparent;padding:0;cursor:pointer}.hotspot img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0;transition:opacity .16s;pointer-events:none}.hotspot:hover img,.hotspot:focus-visible img{opacity:1}.hotspot span{position:absolute;left:50%;bottom:-11%;transform:translate(-50%,7px);opacity:0;color:#192307;background:#f4e66be8;border:2px solid #25300e;padding:.25vw .48vw;font:900 clamp(6px,.58vw,11px) Arial;white-space:nowrap;transition:.15s}.hotspot:hover span,.hotspot:focus-visible span{opacity:1;transform:translate(-50%,0)}
-.tree-hotspot{left:74.3%;top:18.4%;width:11.6%;height:25.4%}.tree-hotspot:hover img{filter:drop-shadow(0 0 2px #ffff97) drop-shadow(0 0 8px #f6ff3d) brightness(1.18)}
-.dolphin-hotspot{left:75.55%;top:51.4%;width:5.2%;height:8.3%;transform:rotate(-4deg)}.dolphin-hotspot:hover img{filter:drop-shadow(0 0 2px #fff8a0) drop-shadow(0 0 8px #f3ff4b) brightness(1.25)}
-.bag-button{position:absolute;z-index:18;left:5.4%;bottom:3.8%;width:5.3%;aspect-ratio:1;border:3px solid #2a1605;outline:2px solid #d9a32f;background:linear-gradient(135deg,#6a471e,#211407);box-shadow:inset 0 0 0 2px #9b6a28,4px 5px #0007;cursor:pointer}.bag-button span{font-size:2.7vw;color:#eec85c}.bag-button small{position:absolute;left:50%;top:100%;transform:translateX(-50%);font:800 .52vw Arial;color:#fff1a8}.bag-button:hover{filter:brightness(1.25);translate:0 -2px}
-.walker{position:absolute;z-index:17;width:5.8%;height:15.2%;left:28.7%;top:57%;transform:translate(-50%,-86%);pointer-events:none}.walker>div{position:relative;z-index:2;width:100%;height:100%;background-image:url("assets/walker.png");background-size:400% 400%;background-repeat:no-repeat;background-position:0 0;filter:drop-shadow(0 3px 2px #07150aa0)}.walker i{position:absolute;left:25%;right:25%;bottom:3%;height:8%;border-radius:50%;background:#07150b75;filter:blur(2px)}
-.route-message{position:absolute;z-index:16;left:50%;bottom:1.8%;transform:translateX(-50%);padding:.33vw .85vw;background:#130d08e8;border:1px solid #d6a32e;color:#fff0b7;font:700 clamp(6px,.65vw,12px) Arial;box-shadow:2px 3px #0008;white-space:nowrap}
-.hidden{display:none!important}.overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:3vh 3vw;background:#000b;backdrop-filter:blur(4px)}
-.pixel-panel{position:relative;width:min(1080px,94vw);max-height:92vh;overflow:auto;padding:28px;background:linear-gradient(#3c2813,#160d07);border:4px solid #16100a;outline:4px solid #d09b2c;box-shadow:inset 0 0 0 3px #78501f,0 25px 90px #000}.pixel-panel:before{content:"";position:absolute;inset:10px;border:1px solid #9e722e;pointer-events:none}.pixel-panel h1{position:relative;margin:0 0 20px;text-align:center;color:#ffd25a;font:900 clamp(25px,3.2vw,48px) Georgia;text-shadow:3px 3px #743608}.eyebrow{position:relative;text-align:center;margin:0 0 5px;color:#9bd05c;font:800 11px Arial;letter-spacing:.18em}.close-button{position:absolute;z-index:10;right:14px;top:12px;width:42px;height:42px;border:2px solid #c18d31;background:#25160a;color:#ffd45d;font-size:29px;line-height:1;cursor:pointer}.close-button:hover{filter:brightness(1.4)}
-.character-grid{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:13px}.character-card{position:relative;height:340px;overflow:hidden;padding:0;border:2px solid #745322;background:radial-gradient(circle at 50% 35%,#47726a,#122720 72%);cursor:pointer}.character-card img{position:absolute;left:7%;top:3%;width:86%;height:94%;object-fit:contain;filter:drop-shadow(0 7px 5px #0007)}.character-card:hover,.character-card.selected{border-color:#ffe05f;box-shadow:0 0 0 2px #211405,0 0 16px #ffd34b}.character-card.selected:after{content:"✓";position:absolute;right:7px;top:7px;display:grid;place-items:center;width:27px;height:27px;background:#f3bd2e;border:2px solid #1b1008;color:#271406;font:900 18px Arial}
-.name-editor{position:relative;margin:20px auto 0;max-width:580px;padding:14px 17px;background:#110d09;border:2px solid #815d25}.name-editor label{display:block;margin-bottom:8px;color:#f4dd9f;font:800 12px Arial}.name-editor>div{display:flex;gap:9px}.name-editor input{min-width:0;flex:1;padding:12px 14px;border:2px solid #a77a2d;background:#f8edcf;color:#21150d;font:800 18px Arial;outline:none}.name-editor input:focus{box-shadow:0 0 0 3px #f0bf39}.name-editor button,.console-controls button{border:3px solid #130d07;outline:2px solid #d7a137;background:linear-gradient(#d99b2a,#8e4e0a);padding:10px 17px;color:#fff1bc;font:900 12px Arial;text-shadow:2px 2px #542a06;cursor:pointer}.name-editor button:hover,.console-controls button:hover{filter:brightness(1.18);translate:0 -1px}
-.console{position:relative;width:min(760px,94vw);padding:48px 55px 34px;border-radius:34px;background:linear-gradient(145deg,#d7cdb7,#948a79);border:5px solid #413b32;box-shadow:inset 7px 7px #eee7d8,inset -8px -9px #71695c,0 28px 90px #000}.console-brand{text-align:center;margin-bottom:13px;color:#4a443a;font:900 16px Arial;letter-spacing:.18em}.console-close{top:16px;right:19px;background:#6a604f;border-color:#302b24;color:#fff}.lcd-shell{padding:12px 14px 15px;border-radius:10px;background:#4b5147;border:5px solid #282c27;box-shadow:inset 0 0 0 2px #788174}.lcd-top,.lcd-stats{display:flex;justify-content:space-between;align-items:center;background:var(--lcd);color:var(--lcd-dark);font:900 11px "Courier New",monospace;letter-spacing:.04em}.lcd-top{padding:4px 6px 2px}.lcd-stats{gap:14px;padding:2px 6px 5px}.lcd-stats span{flex:1}.lcd-meter{display:inline-block;width:48px;height:7px;margin-left:5px;border:1px solid var(--lcd-dark);vertical-align:middle}.lcd-meter i{display:block;height:100%;background:var(--lcd-dark)}#gameCanvas{display:block;width:100%;aspect-ratio:240/152;background:var(--lcd);image-rendering:pixelated;cursor:pointer}.console-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:25px}.console-controls button{min-width:104px;border-radius:12px;height:54px;box-shadow:0 5px #4a2810}.console-controls button:nth-last-child(-n+2){border-radius:50%;height:62px}.console-hint{text-align:center;margin:18px 0 0;color:#413b32;font:800 11px Arial}.bag-panel{width:min(720px,93vw)}.collection{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.collection article{height:190px;display:grid;grid-template-rows:1fr auto;place-items:center;border:3px solid #7e5a24;background:radial-gradient(circle,#3d6659,#10241e);box-shadow:inset 0 0 0 3px #140d08}.collection b{font-size:64px;color:#e7b839;text-shadow:4px 4px #633810}.collection span{width:100%;padding:10px;text-align:center;background:#130e09df;color:#f4dfa4;font:800 11px Arial}.collection .locked{filter:grayscale(1);opacity:.55}
-@media(max-width:800px){.character-grid{grid-template-columns:repeat(4,1fr)}.character-card{height:260px}.pixel-panel{padding:25px 18px}.console{padding:44px 22px 28px}.console-controls{gap:10px}.console-controls button{min-width:88px}.route-message{bottom:.8%}}
+:root{--gold:#f3b82f;--gold2:#ffe074;--dark:#110a05;--wood:#3d2411;--wood2:#241309;--stone:#56544d;--cream:#fff0b6;--green:#76c442;--blue:#4ea2ef}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#061b34}button,input{font:inherit}button{color:inherit}
+body{font-family:"Lucida Console","Monaco","Courier New",monospace;image-rendering:pixelated}
+.stage{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#155d91,#06162c 70%)}
+.map{position:relative;width:min(100vw,177.68vh);aspect-ratio:1672/941;overflow:hidden;isolation:isolate;box-shadow:0 24px 80px #000c}.map-art{position:absolute;inset:0;width:100%;height:100%}
+.profile-button,.name-button{position:absolute;z-index:20;border:0;background:transparent;cursor:pointer}.profile-button{left:17.7%;top:2.1%;width:5.1%;height:7.4%;overflow:hidden}.profile-button img{position:absolute;width:72%;left:14%;top:-20%;filter:drop-shadow(2px 2px #0009)}.name-button{left:22.55%;top:2.05%;height:7.05%;width:10.8%;display:flex;align-items:center;justify-content:center;gap:.55vw;color:#fff6d7;font-weight:900;font-size:clamp(7px,.9vw,16px);text-shadow:2px 2px #000}.profile-button:hover,.name-button:hover{filter:brightness(1.25)}
+.landmark{position:absolute;z-index:12;width:8%;height:8%;transform:translate(-50%,-50%);border:0;background:transparent;cursor:pointer}.landmark span{position:absolute;left:50%;top:-15%;transform:translate(-50%,-4px);opacity:0;padding:.32vw .56vw;background:#140b05;border:2px solid var(--gold);box-shadow:inset 0 0 0 2px #68451d;color:var(--cream);font-size:clamp(6px,.62vw,11px);font-weight:900;white-space:nowrap}.landmark:hover span,.landmark:focus-visible span{opacity:1}.hotspot{position:absolute;z-index:14;border:0;background:transparent;cursor:pointer}.hotspot span{position:absolute;left:50%;bottom:-5%;transform:translate(-50%,8px);opacity:0;padding:.35vw .6vw;border:2px solid #160d06;outline:2px solid var(--gold);background:#2c190b;color:#fff2b3;font-size:clamp(6px,.62vw,11px);font-weight:900;white-space:nowrap}.hotspot:hover span,.hotspot:focus-visible span{opacity:1;transform:translate(-50%,0)}.plant-hotspot{left:73.5%;top:18%;width:14%;height:28%}.animal-hotspot{left:74%;top:46%;width:12%;height:17%}
+.bag-button{position:absolute;z-index:18;left:5.4%;bottom:3.8%;width:5.4%;aspect-ratio:1;border:4px solid #160c05;outline:3px solid var(--gold);background:repeating-linear-gradient(45deg,#6b451f 0 7px,#4a2a11 8px 14px);box-shadow:inset 0 0 0 3px #9c6a2d,5px 6px #0009;cursor:pointer}.bag-button b{font-size:2vw;color:#f1c758}.bag-button small{position:absolute;left:50%;top:105%;transform:translateX(-50%);font-size:.48vw;color:#fff0a8;font-weight:900}.walker{position:absolute;z-index:17;width:5.8%;height:15.2%;left:28.7%;top:57%;transform:translate(-50%,-86%);pointer-events:none}.walker>div{position:relative;z-index:2;width:100%;height:100%;background:url("assets/walker.png") 0 0/400% 400% no-repeat;filter:drop-shadow(0 3px 2px #07150aa0)}.walker i{position:absolute;left:25%;right:25%;bottom:3%;height:8%;border-radius:50%;background:#07150b75;filter:blur(2px)}.route-message{position:absolute;z-index:16;left:50%;bottom:1.8%;transform:translateX(-50%);padding:.35vw .9vw;background:#130c06;border:2px solid var(--gold);box-shadow:inset 0 0 0 2px #6e4a1d,3px 4px #0009;color:#fff0b7;font-size:clamp(6px,.65vw,12px);font-weight:900;white-space:nowrap}
+.hidden{display:none!important}.overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:2vh 2vw;background:#000c;backdrop-filter:blur(3px)}
+.block-panel,.game-shell{position:relative;background:repeating-linear-gradient(0deg,#3e2512 0 10px,#2c180b 11px 20px);border:6px solid #120a04;outline:4px solid #c99027;box-shadow:inset 0 0 0 4px #765020,inset 0 0 35px #000b,0 28px 90px #000}.block-panel{width:min(1120px,95vw);max-height:93vh;overflow:auto;padding:28px}.block-close{position:absolute;z-index:20;right:13px;top:12px;width:44px;height:44px;border:3px solid #120903;outline:2px solid var(--gold);background:#4e2b10;color:#ffe273;font-size:28px;font-weight:900;cursor:pointer}.panel-title{text-align:center;color:#ffd45e;text-shadow:3px 3px #6d3106}.panel-title small{display:block;color:#a8db65;font-weight:900;letter-spacing:.15em}.panel-title h1{margin:6px 0 22px;font-size:clamp(24px,3vw,46px)}
+.character-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}.character-card{position:relative;height:330px;overflow:hidden;padding:0;border:4px solid #1b1008;outline:2px solid #7d5722;background:repeating-linear-gradient(45deg,#23453c 0 12px,#19352e 13px 24px);cursor:pointer}.character-card img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 4px #0007)}.character-card.selected{outline-color:#ffe16c;box-shadow:0 0 0 4px #f0b932}.character-card.selected:after{content:"✓";position:absolute;right:8px;top:8px;width:30px;height:30px;display:grid;place-items:center;background:#eeb52d;border:3px solid #160d06;color:#231305;font-weight:900}.name-editor{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;max-width:680px;margin:20px auto 0;padding:14px;background:#130b06;border:3px solid #7b5421}.name-editor label{color:#ffe18a;font-weight:900}.name-editor input{min-width:0;padding:12px;border:3px solid #1a0f07;outline:2px solid #b77f28;background:#f5e6bd;color:#1c1108;font-weight:900}.block-button,.action-button,.select-card{border:4px solid #160c05;outline:2px solid var(--gold);background:linear-gradient(#cc8b24 0 48%,#8e4b0b 49%);box-shadow:inset 0 0 0 2px #f0bd4b,0 5px #4d2708;color:#fff3bb;text-shadow:2px 2px #552804;font-weight:900;cursor:pointer}.block-button{padding:12px 18px}.block-button:hover,.action-button:hover,.select-card:hover{filter:brightness(1.18);transform:translateY(-1px)}
+.game-shell{width:min(1480px,98vw);max-height:96vh;overflow:auto;padding:16px}.game-hud{position:relative;display:grid;grid-template-columns:190px 210px 190px minmax(260px,1fr) minmax(280px,1fr) 120px;align-items:stretch;min-height:78px;border:5px solid #110904;outline:3px solid var(--gold);background:repeating-linear-gradient(90deg,#16100a 0 18px,#21170e 19px 36px);box-shadow:inset 0 0 0 3px #62451d}.game-hud>div{display:flex;align-items:center;gap:10px;padding:9px 13px;border-right:2px solid #5d411b}.hud-brand strong{color:#ffd359;font-size:20px;line-height:.92;text-shadow:3px 3px #6b3307}.grass-cube{width:50px;height:50px;border:4px solid #0d0804;box-shadow:inset 0 0 0 2px #9bd24d;background:linear-gradient(#76c442 0 35%,#5b3516 36% 100%);position:relative}.grass-cube:after{content:"";position:absolute;inset:8px;background:repeating-linear-gradient(90deg,#0002 0 5px,transparent 6px 10px)}.hud-player img{width:54px;height:54px;object-fit:cover;object-position:50% 12%;border:4px solid #140b05;outline:2px solid #ba7e25;background:#3f2a12}.hud-player span,.hud-stat b,.hud-coins b{color:#fff4cf;font-weight:900;text-shadow:2px 2px #000}.hud-stat{flex-wrap:wrap;align-content:center}.hud-stat.grow{display:grid!important;grid-template-columns:auto 1fr auto;gap:9px}.hud-stat em{color:#fff3cc;font-style:normal;font-weight:900;white-space:nowrap}.hearts{display:flex;gap:5px}.heart{width:23px;height:20px;position:relative;filter:drop-shadow(2px 2px #4f160b)}.heart:before{content:"♥";position:absolute;color:#ef3d2f;font-size:25px;line-height:20px}.segment-bar{height:25px;display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:3px;border:3px solid #070504;background:#28251f}.segment-bar i{display:block;background:#383630}.segment-bar.energy i.on{background:linear-gradient(#a9ec59,#58a923)}.segment-bar.energy i.mid{background:linear-gradient(#ffe75f,#d5a719)}.segment-bar.xp i.on{background:linear-gradient(#79c9ff,#267ac7)}.hud-coins{justify-content:center}.hud-coins span{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:4px solid #7b4808;background:#f3ba23;color:#8b5108;font-size:25px;box-shadow:inset 0 0 0 3px #ffe36b}
+.game-panel{margin-top:17px;border:6px solid #100904;outline:3px solid var(--gold);background:repeating-linear-gradient(0deg,#3c2311 0 12px,#2a160a 13px 24px);box-shadow:inset 0 0 0 4px #70491d;padding:18px}.game-panel-title{text-align:center;color:#ffd35b;text-shadow:3px 3px #6a3107}.game-panel-title span{display:block;font-size:clamp(26px,3vw,48px);font-weight:900}.game-panel-title small{display:block;margin-top:4px;color:#f5df9b;font-weight:900}.selection-view{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}.select-card{position:relative;min-height:365px;padding:18px;background:repeating-linear-gradient(45deg,#21483c 0 14px,#17352d 15px 28px);display:grid;grid-template-rows:1fr auto auto;place-items:center}.select-card .preview{width:100%;height:245px;display:grid;place-items:center;overflow:hidden;border:4px solid #0f0905;background:radial-gradient(circle at 50% 35%,#4c7b63,#10291f 72%);box-shadow:inset 0 0 0 3px #6b4d21}.select-card img{max-width:88%;max-height:90%;object-fit:contain;image-rendering:pixelated}.select-card h2{margin:14px 0 5px;color:#ffe17a;font-size:23px}.select-card p{margin:0;color:#fff1c0;font-size:12px;text-align:center}.block-animal{position:relative;width:170px;height:150px}.capybara-art,.sloth-art{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);image-rendering:pixelated}.capybara-art{width:125px;height:72px;background:#8a5a2d;box-shadow:20px -20px 0 -5px #a16c37,-30px 22px 0 -20px #40270f,30px 22px 0 -20px #40270f}.capybara-art:before{content:"";position:absolute;right:-18px;top:-10px;width:46px;height:42px;background:#a16c37;box-shadow:8px -8px 0 -5px #6d431e}.capybara-art:after{content:"▪";position:absolute;right:-5px;top:-8px;color:#160e09;font-size:24px}.sloth-art{width:75px;height:105px;background:#8d6d49;box-shadow:0 -14px 0 #715136}.sloth-art:before{content:"";position:absolute;left:-45px;top:-27px;width:165px;height:14px;background:#55371c;box-shadow:0 4px 0 #271508}.sloth-art:after{content:"⌒  ⌒";position:absolute;left:8px;top:15px;color:#22130a;font-size:17px;font-weight:900}.play-view{margin-top:16px}.play-view canvas{display:block;width:100%;aspect-ratio:16/9;border:6px solid #100904;outline:3px solid #99702b;background:#122b27;image-rendering:pixelated}.action-bar{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:15px;padding:14px;border:4px solid #100904;background:#160d07}.action-button{min-width:155px;padding:14px 18px;font-size:16px}.action-button.secondary{background:linear-gradient(#526a72 0 48%,#2d3e44 49%);outline-color:#9ab6bd}.game-message{min-height:23px;margin:13px 0 0;text-align:center;color:#ffe187;font-weight:900;text-shadow:2px 2px #4e2407}.collection{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.collection article{height:190px;display:grid;grid-template-rows:1fr auto;place-items:center;border:4px solid #160d06;outline:2px solid #8b6326;background:radial-gradient(circle,#3d6659,#10241e)}.collection b{font-size:64px;color:#e7b839;text-shadow:4px 4px #633810}.collection span{width:100%;padding:10px;text-align:center;background:#130e09df;color:#f4dfa4;font-size:11px;font-weight:900}.collection .locked{filter:grayscale(1);opacity:.55}
+@media(max-width:1100px){.game-hud{grid-template-columns:1fr 1fr 1fr}.game-hud>div{min-height:68px}.hud-brand,.hud-player,.hud-coins{justify-content:center}.character-grid{grid-template-columns:repeat(4,1fr)}.character-card{height:260px}}
+@media(max-width:760px){.selection-view{grid-template-columns:1fr}.select-card{min-height:300px}.game-hud{grid-template-columns:1fr 1fr}.hud-stat.grow{grid-template-columns:auto 1fr}.hud-stat.grow em{grid-column:1/-1}.character-grid{grid-template-columns:repeat(2,1fr)}.name-editor{grid-template-columns:1fr}.collection{grid-template-columns:repeat(2,1fr)}}
 
-/* Rebuilt HUD: this fully covers the painted sample bar in the map artwork. */
-.game-hud{
-  position:absolute;z-index:30;left:5.35%;right:5.55%;top:1.35%;height:8.35%;
-  display:grid;grid-template-columns:13.4% 16.8% 15% 22% 22% 10.8%;align-items:stretch;
-  color:#fff3c6;background:
-    linear-gradient(180deg,#0c0905 0 7%,#3b250e 8% 14%,#161008 15% 82%,#080604 83% 100%);
-  border:3px solid #0b0703;outline:2px solid #d79a20;
-  box-shadow:inset 0 0 0 2px #744816,inset 0 8px #27170a,inset 0 -7px #090603,4px 5px 0 #0008;
-  font-family:"Courier New",monospace;font-weight:900
-}
-.game-hud:before,.game-hud:after{content:"";position:absolute;z-index:5;width:11px;height:11px;border:3px solid #e2a72a;background:#27160a;transform:rotate(45deg)}
-.game-hud:before{left:-7px;top:-7px}.game-hud:after{right:-7px;bottom:-7px}
-.hud-brand{display:flex;align-items:center;gap:7%;padding:5% 8%;border-right:2px solid #4c3217;text-shadow:2px 2px #000;font-size:clamp(8px,1.25vw,22px);line-height:.86;color:#ffd445}
-.hud-brand i{position:relative;display:block;width:35%;aspect-ratio:1;background:linear-gradient(135deg,#8bd340 0 26%,#45a92f 27% 55%,#267427 56%);border:2px solid #1b320d;box-shadow:inset 3px 3px #b9ed5e,3px 3px #0008}
-.hud-brand i:after{content:"";position:absolute;left:19%;right:19%;bottom:-24%;height:28%;background:#7c4b1c;border:2px solid #301b09}
-.game-hud .player-hud{position:relative;left:auto;top:auto;width:auto;height:auto;display:grid;grid-template-columns:36% 64%;border:0!important;outline:0!important;box-shadow:none!important;background:#100b06;border-right:2px solid #4c3217!important}
-.game-hud .profile-button{position:relative;left:auto;top:auto;width:auto;height:auto;border:3px solid #7f541e!important;outline:2px solid #d7a237;overflow:hidden;background:linear-gradient(#214b44,#10251f);margin:5px;z-index:2}
-.game-hud .portrait-cleaner{position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,#477d6f,#10251f 72%);box-shadow:inset 0 0 0 2px #090704}
-.game-hud .profile-button img{position:absolute;width:88%;height:145%;object-fit:contain;object-position:center top;left:6%;top:-5%;filter:drop-shadow(2px 2px #0009)}
-.game-hud .name-button{position:relative;left:auto;top:auto;width:auto;height:auto;display:flex;align-items:center;justify-content:center;gap:7%;border:0;background:repeating-linear-gradient(0deg,#21150b 0 4px,#150e08 5px 9px);color:#fff5d0;font-size:clamp(7px,.88vw,16px);text-shadow:2px 2px #000}
-.game-hud .pencil{display:grid;place-items:center;width:1.8em;height:1.8em;border:1px solid #9c6b23;background:#38210d;color:#f1c75b;transform:rotate(-5deg)}
-.hud-stat{min-width:0;display:flex;align-items:center;justify-content:center;gap:5%;padding:0 6%;border-right:2px solid #4c3217;text-shadow:2px 2px #000;font-size:clamp(7px,.88vw,16px);white-space:nowrap}
-.health-stat .hearts{color:#ff3d3d;font-size:1.45em;letter-spacing:-.16em;text-shadow:1px 1px #7c0505,2px 2px #000}
-.hud-stat .meter{position:relative;flex:1;height:27%;min-width:24px;border:2px solid #080604;background:#050403;box-shadow:inset 0 0 0 1px #6b5532}
-.hud-stat .meter i{display:block;height:100%;width:80%;background:repeating-linear-gradient(90deg,#65cf48 0 13%,#288d2e 14% 16%);box-shadow:inset 0 2px #b6ef68}
-.xp-stat .meter i{width:0;background:repeating-linear-gradient(90deg,#65bcff 0 13%,#1766b8 14% 16%);box-shadow:inset 0 2px #b5e6ff;transition:width .25s}
-.coin-stat{border-right:0}.coin-icon{display:grid;place-items:center;width:2em;aspect-ratio:1;border-radius:50%;border:3px solid #6d3c06;background:#f6c62e;color:#8b4d08;box-shadow:inset 0 0 0 2px #fff08b,2px 2px #000;font-family:Georgia}
-.live-xp,.live-coins{display:none!important}
 
-/* The controls themselves are visible assets. Hover adds light behind the object only. */
-.tree-hotspot{left:69.4%;top:24.7%;width:10.2%;height:20.5%}
-.dolphin-hotspot{left:75.3%;top:51.4%;width:7.2%;height:10.5%;transform:rotate(-6deg)}
-.hotspot img{opacity:1;object-fit:contain}
-.hotspot:hover img,.hotspot:focus-visible img{opacity:1}
-.tree-hotspot:hover img,.tree-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #fff49a) drop-shadow(0 0 11px #eaff47) brightness(1.12)}
-.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #ffd3f0) drop-shadow(0 0 12px #ff7bca) brightness(1.12)}
-
-/* Illustrated inventory control and collection panel. */
-.bag-button{left:4.25%;bottom:4%;width:6.4%;aspect-ratio:1;background:linear-gradient(#2d1b0d,#120a05);border:4px solid #160b04;outline:3px solid #d6a13a;box-shadow:inset 0 0 0 3px #77501f,5px 6px #0008}
-.bag-art{left:17%;top:19%;width:66%;height:62%;border:3px solid #2c1708;border-radius:18% 18% 12% 12%;background:linear-gradient(90deg,#573013,#a96b28 24% 76%,#573013);box-shadow:inset 0 5px #d7963e,inset 0 -6px #3a1c09}
-.bag-art:before{left:20%;right:20%;top:-42%;height:51%;border:5px solid #43250f;border-bottom:0}
-.bag-art:after{content:""!important;inset:30% 31%;background:radial-gradient(circle,#f3d56f 0 18%,#c58b2a 20% 48%,#6a3510 50%);border:2px solid #3b1d09}
-.bag-button small{top:96%;font-size:clamp(5px,.55vw,10px);padding:2px 5px;background:#170d07;border:1px solid #c79638}
-.collection-heading{position:relative;display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:20px}
-.collection-heading h1{margin:0;text-align:left}.collection-heading .eyebrow{text-align:left}
-.large-backpack{position:relative;display:block;width:86px;height:92px;border:5px solid #251205;border-radius:20px 20px 12px 12px;background:linear-gradient(90deg,#5b3112,#aa6b27 22% 78%,#5b3112);box-shadow:inset 0 7px #d89842,inset 0 -8px #3a1b08,5px 6px #0008}
-.large-backpack:before{content:"";position:absolute;left:21px;right:21px;top:-29px;height:31px;border:7px solid #43250f;border-bottom:0;border-radius:50% 50% 0 0}
-.large-backpack i{position:absolute;left:20%;right:20%;bottom:15%;height:34%;border:3px solid #3a1b08;background:#d39a39;box-shadow:inset 0 4px #efc266}
-.collection article{height:210px;background:linear-gradient(145deg,#244f42,#0c211a);border:3px solid #76511f;outline:2px solid #d0a03b;box-shadow:inset 0 0 0 3px #120b06}
-.collection article b{position:relative;display:grid;place-items:center;width:92px;height:100px;margin-top:15px;background:radial-gradient(circle,#3f7763,#162e26 72%);border:2px solid #926827}
-.collection article b i{display:block;position:relative}.collect-flower b i{width:23px;height:23px;background:#ffd45d;box-shadow:24px 0 #e95fae,-24px 0 #dd70c3,0 24px #f29bce,0 -24px #f5b1dc;transform:rotate(45deg)}.collect-flower b i:after{content:"";position:absolute;inset:6px;background:#fff1a0}
-.collect-cacao b i{width:38px;height:67px;border-radius:45%;background:repeating-linear-gradient(90deg,#9d351f 0 6px,#e77e28 7px 13px,#ffc044 14px 17px);border:4px solid #57200f;transform:rotate(12deg)}
-.collect-pearl b i{width:48px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 28%,#fff 0 9%,#c8f4ee 12% 35%,#75bec3 70%);box-shadow:0 0 12px #b9ffff}
-.collection .locked b i{font:900 54px "Courier New";color:#e7c16b}
-
-@media(max-width:900px){
-  .game-hud{grid-template-columns:14% 22% 16% 23% 25%;right:3%;left:3%;height:9%}
-  .hud-brand{display:none}.coin-stat{position:absolute;right:1%;top:102%;height:42%;background:#161008;border:2px solid #b47d24}
-  .collection{grid-template-columns:repeat(2,1fr)}
-}
-
-/* Drawn pixel thumbnails replace emoji and generic symbols in selection controls. */
-.plant-choice i,.pet-choice i{position:relative;overflow:hidden;image-rendering:pixelated}
-.plant-choice i:before,.plant-choice i:after,.pet-choice i:before,.pet-choice i:after{content:"";position:absolute}
-.cacao-choice i{background:#24472c}
-.cacao-choice i:before{left:17px;top:7px;width:6px;height:30px;background:#7b4a22;box-shadow:-10px 7px 0 -1px #3f8f40,10px 2px 0 -1px #62b74e,-13px 16px 0 #38813b,12px 17px 0 #75c65a}
-.cacao-choice i:after{left:11px;top:14px;width:7px;height:13px;border-radius:40%;background:#df7427;box-shadow:18px 6px #9f3e24}
-.orchid-choice i{background:#263f31}.orchid-choice i:before{left:18px;top:16px;width:5px;height:22px;background:#4d9d4b;box-shadow:-8px 10px 0 2px #27743b,8px 8px 0 2px #5db95a}
-.orchid-choice i:after{left:14px;top:8px;width:11px;height:11px;background:#f4a8df;box-shadow:-7px 3px #d969c3,7px 3px #ed8ed5,0 -6px #ffd0ee,0 7px #bf4bac}
-.lily-choice i{background:#184958}.lily-choice i:before{left:5px;top:25px;width:29px;height:9px;border-radius:50%;background:#4bad61;box-shadow:9px -5px #287e4d}
-.lily-choice i:after{left:16px;top:11px;width:10px;height:10px;background:#fff0ab;box-shadow:-7px 4px #f19abf,7px 4px #f5b2cf,0 -6px #fff7cf,0 7px #dc729e}
-.dolphin-choice i{background:#2e8db1}.dolphin-choice i:before{left:6px;top:16px;width:29px;height:13px;border-radius:55% 70% 55% 55%;background:linear-gradient(#f8add3,#df5fa5);box-shadow:inset 0 -4px #b63e83}
-.dolphin-choice i:after{left:3px;top:13px;width:9px;height:8px;background:#c8448c;clip-path:polygon(100% 50%,0 0,25% 50%,0 100%);box-shadow:28px 4px 0 -2px #f4a2cc}
-.capy-choice i{background:#55783b}.capy-choice i:before{left:5px;top:17px;width:28px;height:16px;border-radius:45% 36% 30% 34%;background:#ad7146;box-shadow:inset 0 -5px #784729,20px -9px 0 -3px #c38a5c}
-.capy-choice i:after{left:27px;top:13px;width:4px;height:4px;background:#19130e;box-shadow:-18px 21px 0 1px #56321f,2px 17px 0 1px #56321f}
-.sloth-choice i{background:#315f36}.sloth-choice i:before{left:9px;top:7px;width:24px;height:27px;border-radius:48% 48% 42% 42%;background:#88745f;box-shadow:inset 0 -7px #5c4b3e,-7px 15px 0 -3px #6c5a49,7px 15px 0 -3px #6c5a49}
-.sloth-choice i:after{left:14px;top:10px;width:14px;height:12px;border-radius:45%;background:#cfb797;box-shadow:-3px 3px 0 -1px #3b3027,5px 3px 0 -1px #3b3027}
-
-/* Final cascade guard: keep rebuilt controls above legacy compatibility styles. */
-.tree-hotspot{left:69.4%;top:24.7%;width:10.2%;height:20.5%}
-.dolphin-hotspot{left:75.3%;top:51.4%;width:7.2%;height:10.5%;transform:rotate(-6deg)}
-.hotspot img{opacity:1;object-fit:contain}
-.tree-hotspot:hover img,.tree-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #fff49a) drop-shadow(0 0 11px #eaff47) brightness(1.12)}
-.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #ffd3f0) drop-shadow(0 0 12px #ff7bca) brightness(1.12)}
-.bag-button{left:4.25%;bottom:4%;width:6.4%;aspect-ratio:1;background:linear-gradient(#2d1b0d,#120a05);border:4px solid #160b04;outline:3px solid #d6a13a;box-shadow:inset 0 0 0 3px #77501f,5px 6px #0008}
-.bag-button .bag-art{left:17%;top:19%;width:66%;height:62%;border:3px solid #2c1708;border-radius:18% 18% 12% 12%;background:linear-gradient(90deg,#573013,#a96b28 24% 76%,#573013);box-shadow:inset 0 5px #d7963e,inset 0 -6px #3a1c09}
-.bag-button .bag-art:before{left:20%;right:20%;top:-42%;height:51%;border:5px solid #43250f;border-bottom:0}
-.bag-button .bag-art:after{content:""!important;inset:30% 31%;background:radial-gradient(circle,#f3d56f 0 18%,#c58b2a 20% 48%,#6a3510 50%);border:2px solid #3b1d09}
-
-/* Clean, aligned game interface. */
-.console{width:min(820px,95vw);padding:48px 48px 34px}
-.console-brand,.lcd-top,.lcd-stats,.console-controls button,.console-hint,.pet-name-editor{
-  font-family:"Trebuchet MS",Arial,sans-serif;
-}
-.console-brand{letter-spacing:.11em}
-.lcd-shell{padding:14px 16px 16px}
-#gameCanvas{border:2px solid #0b0905;background:#244b3c}
-.lcd-top,.lcd-stats{min-height:24px;padding:5px 8px;background:#18281f;color:#fff0b8;letter-spacing:.02em}
-.console-controls{display:grid;grid-template-columns:repeat(4,minmax(118px,1fr));align-items:stretch;gap:12px;margin-top:22px;padding:14px}
-.console-controls button,.name-editor button{
-  min-width:0;height:78px;margin:0;padding:9px 12px;border:3px solid #130b05;outline:2px solid #d9aa45;
-  background:linear-gradient(#c98525 0 48%,#8d4b10 49%);box-shadow:inset 0 0 0 2px #efbd55,0 5px #3f2108!important;
-  font-size:12px;line-height:1.15;letter-spacing:.025em;text-align:center;transform:none!important;translate:none!important
-}
-.console-controls button:hover{filter:brightness(1.14);transform:none!important;translate:none!important}
-.console-controls .plant-choice,.console-controls .pet-choice{height:88px;grid-template-columns:48px 1fr;gap:10px;text-align:left}
-.plant-choice i,.pet-choice i{width:44px;height:44px;border:2px solid #efc85c}
-.console-controls .tool-button,.console-controls .pet-tool{height:88px;grid-template-rows:48px auto}
-.pet-name-editor{grid-column:1/-1;width:100%;padding:14px 16px}
-.console-hint{font-size:12px;line-height:1.45}
-@media(max-width:700px){
-  .console{padding:45px 20px 28px}
-  .console-controls{grid-template-columns:repeat(2,minmax(110px,1fr))}
-}
-
-/* Ornate pixel-adventure finish: carved wood, brass trim and layered jungle texture. */
-.pixel-panel,.console{
+/* ===== Block World v2: adoption, animals and plant care ===== */
+.select-card .preview.animal-preview{
   background:
-    linear-gradient(90deg,transparent 0 48%,#d29b3520 49% 51%,transparent 52%),
-    repeating-linear-gradient(3deg,#3c2512 0 7px,#2a190d 8px 14px,#472b13 15px 19px);
-  border-radius:0;
-  border:5px solid #160d06;
-  outline:4px solid #d6a43b;
-  box-shadow:inset 0 0 0 3px #70491e,inset 0 0 34px #050200,0 26px 90px #000;
+    linear-gradient(#6fc4df 0 46%,#287c93 47% 66%,#246b37 67%);
 }
-.console:before,.console:after{
-  content:"";position:absolute;z-index:1;left:10px;right:10px;height:8px;
-  background:repeating-linear-gradient(90deg,#8b5b20 0 18px,#e0b34d 19px 24px,#543313 25px 42px);
-  border:2px solid #1a0e05;
+.select-card .preview.animal-preview img{
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+  image-rendering:pixelated;
 }
-.console:before{top:10px}.console:after{bottom:10px}
-.console-brand{position:relative;z-index:2;color:#ffd360;font:900 17px "Courier New",monospace;text-shadow:3px 3px #5e2e08;letter-spacing:.14em}
-.lcd-shell{position:relative;z-index:2;border-radius:2px;border:5px solid #171008;outline:3px solid #b78331;background:#21160c;box-shadow:inset 0 0 0 2px #74501f,0 8px 18px #0009}
-.lcd-top,.lcd-stats{font-family:"Courier New",monospace;font-weight:900}
-.console-controls{position:relative;z-index:2;padding:13px;background:#1a1009c9;border:2px solid #74501f;box-shadow:inset 0 0 0 2px #0b0704}
-.console-controls button,.name-editor button{
-  border-radius:0!important;border:3px solid #150b04;outline:2px solid #d2a13d;
-  background:linear-gradient(#d39327 0 48%,#9b570d 49%);
-  box-shadow:inset 0 0 0 2px #f1bd4c,0 5px #4b2809!important;
-  font-family:"Courier New",monospace;letter-spacing:.02em;
+.select-card.adopted{
+  outline-color:#fff177;
+  box-shadow:0 0 0 4px #e7b62d,0 7px #4d2708;
 }
-.console-hint{position:relative;z-index:2;color:#f1d797;text-shadow:2px 2px #160b04}
-.console-controls .plant-choice{min-width:145px;height:76px;display:grid;grid-template-columns:42px 1fr;align-items:center;text-align:left;gap:7px}
-.plant-choice i{display:grid;place-items:center;width:38px;height:38px;background:#22351e;border:2px solid #f0c95a;color:#9dd56a;font:900 26px Georgia;text-shadow:none}
-.orchid-choice i{color:#ef9fdb}.lily-choice i{color:#fff2aa}
-.console-controls .tool-button{position:relative;min-width:128px;height:82px;padding:8px 12px 7px;display:grid;grid-template-rows:45px auto;place-items:center}
-.tool-button i{position:relative;display:block;width:50px;height:38px;filter:drop-shadow(2px 3px #2b1608)}
-.tool-button span{font-size:11px}
-.water-tool i:before{content:"";position:absolute;left:5px;top:10px;width:29px;height:23px;background:linear-gradient(135deg,#9db9a7,#496e66);border:3px solid #1c302d;box-shadow:inset 4px 3px #d4e3ce}
-.water-tool i:after{content:"";position:absolute;left:30px;top:12px;width:23px;height:8px;background:#75968a;border:3px solid #1c302d;transform:skewY(-16deg);box-shadow:-31px -12px 0 -7px #d4e3ce}
-.fertilizer-tool i:before{content:"";position:absolute;left:10px;top:3px;width:29px;height:32px;background:linear-gradient(90deg,#79502b,#c99f47 22% 78%,#79502b);border:3px solid #301b0c;clip-path:polygon(12% 0,88% 0,100% 100%,0 100%)}
-.fertilizer-tool i:after{content:"✦";position:absolute;left:19px;top:9px;color:#385727;font:900 20px Georgia;text-shadow:1px 1px #f8e392}
-.harvest-tool i:before{content:"";position:absolute;left:22px;top:1px;width:8px;height:35px;background:#86602d;border:2px solid #2e1809;transform:rotate(35deg)}
-.harvest-tool i:after{content:"";position:absolute;left:3px;top:2px;width:36px;height:22px;border:7px solid #e3c256;border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-18deg)}
-.console-controls button:disabled{filter:grayscale(1);opacity:.55;cursor:not-allowed}
-.character-card{background:
-  radial-gradient(circle at 50% 38%,#49766b 0 24%,#142c24 69%),
-  repeating-linear-gradient(90deg,#35220f 0 7px,#25160a 8px 14px);
-  box-shadow:inset 0 0 0 3px #171009,inset 0 -38px #100b07cc;
+.select-card.locked{
+  filter:grayscale(.8) brightness(.55);
+  cursor:not-allowed;
 }
-.character-card:before{content:"";position:absolute;inset:5px;border:1px solid #9b702a;pointer-events:none}
-.bag-button{background:
-  radial-gradient(ellipse at 50% 63%,#b46f24 0 22%,#6c3b15 23% 39%,transparent 40%),
-  linear-gradient(135deg,#6a471e,#211407);
-  border:4px solid #211206;outline:3px solid #d5a13b;box-shadow:inset 0 0 0 2px #a8752c,5px 7px #0008;
+.select-card:disabled{transform:none}
+.select-card .status-tag{
+  position:absolute;
+  right:12px;
+  top:12px;
+  z-index:4;
+  padding:7px 9px;
+  border:3px solid #140b06;
+  outline:2px solid #f3c847;
+  background:#38200e;
+  color:#fff0a0;
+  text-shadow:2px 2px #4d2406;
+  font-size:11px;
 }
-.bag-button span{font-size:0}.bag-button span:after{content:"◆";font-size:2.1vw;color:#e8b847;text-shadow:3px 3px #5b2b0b}
+.adoption-box{
+  grid-column:1/-1;
+  width:min(650px,94%);
+  margin:10px auto;
+  padding:22px;
+  border:5px solid #140b05;
+  outline:3px solid #f1b82d;
+  background:repeating-linear-gradient(0deg,#4a2b13 0 12px,#321b0c 13px 24px);
+  text-align:center;
+}
+.adoption-animal{
+  width:260px;
+  max-width:75%;
+  height:210px;
+  object-fit:contain;
+  image-rendering:pixelated;
+  border:4px solid #130a05;
+  outline:2px solid #9e762e;
+  background:linear-gradient(#70c9e5 0 48%,#246d43 49%);
+}
+.adoption-box h2{margin:15px 0 5px;color:#ffe278}
+.adoption-box p{color:#fff0b9;font-size:13px}
+.adoption-box input{
+  width:min(100%,420px);
+  margin-top:10px;
+  padding:14px;
+  border:4px solid #160d07;
+  outline:2px solid #c99027;
+  background:#fff0c5;
+  color:#201307;
+  font:900 18px monospace;
+  text-transform:uppercase;
+}
+.adoption-actions{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.action-button.danger{
+  background:linear-gradient(#bd513a 0 48%,#742719 49%);
+  outline-color:#ff9778;
+}
+.plant-card-sheet{
+  width:800%!important;
+  max-width:none!important;
+  height:auto!important;
+  transform:translateX(43.75%);
+  image-rendering:pixelated;
+}
 
-/* Final HUD, precise hover entrances and illustrated rucksack. */
-.player-hud{position:absolute;z-index:20;left:17.45%;top:1.25%;width:16.3%;height:8.6%;display:flex;align-items:stretch;background:linear-gradient(#25180b,#100a05);border:2px solid #080503;outline:2px solid #bf8a2c;box-shadow:inset 0 0 0 2px #67451c,3px 4px #0008}
-.player-hud .profile-button,.player-hud .name-button{position:relative;left:auto;top:auto;width:auto;height:auto;border:0;cursor:pointer}
-.player-hud .profile-button{flex:0 0 33%;overflow:hidden;background:linear-gradient(145deg,#40746b,#132b25);border-right:2px solid #b17e29}
-.portrait-cleaner{position:absolute;inset:3px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#4f8375,#10241f 72%);box-shadow:inset 0 0 0 2px #100b06}
-.player-hud .profile-button img{position:absolute;width:82%;height:135%;object-fit:contain;object-position:50% 4%;left:9%;top:-7%;filter:drop-shadow(1px 2px #0008)}
-.player-hud .name-button{flex:1;display:flex;align-items:center;justify-content:center;gap:.55vw;background:repeating-linear-gradient(0deg,#22150a 0 4px,#181007 5px 8px);color:#fff8db;font:700 clamp(7px,.92vw,16px) "Courier New",monospace;text-shadow:2px 2px #000}
-.player-hud .pencil{display:grid;place-items:center;width:1.8em;height:1.8em;border:1px solid #9c6b23;background:#38210d;color:#f1c75b;font-size:1.2em;transform:rotate(-5deg)}
-.tree-hotspot{left:65.1%;top:19.6%;width:14.5%;height:24.5%}
-.tree-hotspot img{opacity:1;object-fit:contain;filter:none}
-.tree-hotspot:hover img,.tree-hotspot:focus-visible img{opacity:1;filter:drop-shadow(0 0 2px #fff7a0) drop-shadow(0 0 8px #eaff39) brightness(1.13)}
-.dolphin-hotspot{left:74.45%;top:51.9%;width:5.6%;height:8.5%;transform:rotate(-4deg)}
-.dolphin-hotspot img{opacity:1;filter:none}
-.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{opacity:1;filter:drop-shadow(0 0 2px #fff8a0) drop-shadow(0 0 8px #ffe54b) brightness(1.18)}
-.bag-button>span:after{content:none!important}
-.bag-art{position:absolute;left:18%;top:21%;width:64%;height:58%;border:3px solid #2c1708;border-radius:20% 20% 12% 12%;background:linear-gradient(90deg,#5f3212,#a96722 22% 78%,#5b2f11);box-shadow:inset 0 4px #cf8b34,inset 0 -5px #3c1d09}
-.bag-art:before{content:"";position:absolute;left:22%;right:22%;top:-42%;height:52%;border:4px solid #3b210d;border-bottom:0;border-radius:50% 50% 0 0}
-.bag-art:after{content:"✦";position:absolute;inset:17% 25%;display:grid;place-items:center;background:#d2a43c;border:2px solid #45260d;color:#5a2c0b;font:900 1.05vw Georgia}
-.console-controls .pet-choice{min-width:155px;height:78px;display:grid;grid-template-columns:44px 1fr;align-items:center;gap:9px;text-align:left}
-.pet-choice i{display:grid;place-items:center;width:42px;height:42px;background:#173b43;border:2px solid #f0c95a;font-size:25px;font-style:normal;text-shadow:none}
-.capy-choice i{background:#4e6d2f}.sloth-choice i{background:#2c5a33}
-.console-controls .pet-tool{position:relative;min-width:128px;height:82px;padding:8px 12px 7px;display:grid;grid-template-rows:45px auto;place-items:center}
-.pet-tool i{position:relative;display:block;width:50px;height:40px;filter:drop-shadow(2px 3px #2b1608)}
-.pet-tool span{font-size:11px}.food-tool i:before{content:"";position:absolute;left:8px;top:12px;width:34px;height:18px;background:#76bd54;border:3px solid #173418;border-radius:55% 12% 55% 12%;transform:rotate(-15deg)}
-.food-tool i:after{content:"";position:absolute;left:23px;top:5px;width:4px;height:30px;background:#d7e76d;border:2px solid #27451d;transform:rotate(36deg)}
-.play-tool i:before{content:"";position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff08a 0 16%,#e44f45 17% 50%,#8a241f 51%);border:3px solid #32120f}
-.heart-tool i:before{content:"♥";position:absolute;inset:0;display:grid;place-items:center;color:#ef5b72;font:900 43px Georgia;text-shadow:2px 2px #671a2a}
-.live-xp{position:absolute;z-index:22;left:68.5%;top:4.1%;width:13.1%;height:2.55%;pointer-events:none}.live-xp:before{content:"";position:absolute;inset:0;background:#14120e;border:2px solid #060503}.live-xp span{position:absolute;z-index:1;left:2px;top:2px;bottom:2px;width:0;background:repeating-linear-gradient(90deg,#40a6f0 0 14px,#1771bb 15px 17px);box-shadow:inset 0 2px #83d1ff}.live-xp b{position:absolute;z-index:2;left:105%;top:-13%;white-space:nowrap;color:#fff1c7;font:900 clamp(7px,.78vw,14px) "Courier New",monospace;text-shadow:2px 2px #000}.live-coins{position:absolute;z-index:22;right:3.3%;top:3.4%;min-width:4.5%;height:3.5%;display:flex;align-items:center;justify-content:flex-end;padding-right:.2vw;background:#171008;color:#fff1c7;font:900 clamp(8px,.88vw,16px) "Courier New",monospace;text-shadow:2px 2px #000;pointer-events:none}
-.release-tool i:before{content:"↗";position:absolute;inset:1px;display:grid;place-items:center;border:3px solid #295234;background:#6ab55f;color:#fff5b8;font:900 35px Georgia}
-.pet-name-editor{width:min(520px,100%);padding:10px 14px;background:#120c07;border:2px solid #8f6427;color:#f4dda0}.pet-name-editor label{display:block;margin-bottom:7px;font:900 11px "Courier New",monospace}.pet-name-editor>div{display:flex;gap:10px}.pet-name-editor input{min-width:0;flex:1;padding:11px 13px;border:3px solid #2b1708;outline:2px solid #d1a03e;background:#fff0c9;color:#27170b;font:900 17px "Courier New",monospace}.pet-name-editor button{height:auto!important;min-width:170px!important}
+
+/* ===== Block World v3: clear map entrances and fixed selection art ===== */
+.plant-card-sheet{display:none!important}
+.plant-preview-image{
+  display:block;
+  width:88%!important;
+  height:92%!important;
+  max-width:88%!important;
+  max-height:92%!important;
+  object-fit:contain!important;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 9px 0 #0007);
+}
+.select-card .preview{
+  position:relative;
+}
+.select-card .preview::after{
+  content:"";
+  position:absolute;
+  left:10%;
+  right:10%;
+  bottom:9%;
+  height:8%;
+  background:#0005;
+  filter:blur(5px);
+  pointer-events:none;
+}
+
+/* Pixel glow rings around the actual map dolphin and large tree. */
+.hotspot{
+  isolation:isolate;
+}
+.hotspot::before,
+.hotspot::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+.animal-hotspot::before{
+  inset:-12% -16%;
+  border:5px solid #ffe052;
+  outline:3px solid #6d3b08;
+  box-shadow:
+    0 0 0 5px #fff3a244,
+    0 0 18px 7px #ffd638,
+    inset 0 0 18px 5px #fff18a88;
+  animation:animalEntryPulse 1.45s steps(4,end) infinite;
+}
+.animal-hotspot::after{
+  left:50%;
+  top:-25%;
+  width:24px;
+  height:24px;
+  transform:translateX(-50%) rotate(45deg);
+  background:#ffd52f;
+  border:4px solid #4a2605;
+  box-shadow:0 0 12px #fff08e;
+  animation:entryArrowBounce 1s steps(3,end) infinite;
+}
+.plant-hotspot::before{
+  inset:-8% -10%;
+  border:5px solid #9dff45;
+  outline:3px solid #285e0e;
+  box-shadow:
+    0 0 0 5px #bfff6544,
+    0 0 20px 8px #86e936,
+    inset 0 0 20px 6px #d9ff8d77;
+  animation:plantEntryPulse 1.6s steps(4,end) infinite;
+}
+.plant-hotspot::after{
+  left:50%;
+  top:-18%;
+  width:24px;
+  height:24px;
+  transform:translateX(-50%) rotate(45deg);
+  background:#8fe52f;
+  border:4px solid #244d0c;
+  box-shadow:0 0 12px #d7ff83;
+  animation:entryArrowBounce 1s steps(3,end) infinite;
+}
+.hotspot span{
+  opacity:1!important;
+  bottom:-15%!important;
+  transform:translate(-50%,0)!important;
+  padding:.48vw .78vw!important;
+  border-width:3px!important;
+  font-size:clamp(8px,.72vw,13px)!important;
+  box-shadow:0 0 0 3px #0008,0 5px 0 #1d0f06;
+}
+.animal-hotspot span{outline-color:#ffd52f!important}
+.plant-hotspot span{outline-color:#8fe52f!important}
+
+@keyframes animalEntryPulse{
+  0%,100%{filter:brightness(.92);transform:scale(.98)}
+  50%{filter:brightness(1.35);transform:scale(1.04)}
+}
+@keyframes plantEntryPulse{
+  0%,100%{filter:brightness(.95);transform:scale(.98)}
+  50%{filter:brightness(1.3);transform:scale(1.035)}
+}
+@keyframes entryArrowBounce{
+  0%,100%{margin-top:0}
+  50%{margin-top:-10px}
+}
+
+
+/* ===== v3.1 precise contour highlights ===== */
+.animal-hotspot::before,
+.plant-hotspot::before{
+  display:none!important;
+}
+
+.animal-hotspot,
+.plant-hotspot{
+  overflow:visible!important;
+  border:none!important;
+  outline:none!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+
+.animal-hotspot img,
+.plant-hotspot img{
+  image-rendering:pixelated;
+  position:relative;
+  z-index:2;
+}
+
+.animal-hotspot img{
+  filter:
+    drop-shadow(0 0 2px #fff7a4)
+    drop-shadow(0 0 5px #ffd93b)
+    drop-shadow(0 0 10px #ffb300);
+  animation:animalContourGlow 1.45s steps(4,end) infinite;
+}
+
+.plant-hotspot img{
+  filter:
+    drop-shadow(0 0 2px #eaff9a)
+    drop-shadow(0 0 5px #9dff45)
+    drop-shadow(0 0 11px #55c92f);
+  animation:plantContourGlow 1.55s steps(4,end) infinite;
+}
+
+/* Keep only a small floating arrow, not a surrounding rectangle. */
+.animal-hotspot::after,
+.plant-hotspot::after{
+  left:50%!important;
+  top:-17%!important;
+  width:22px!important;
+  height:22px!important;
+  border-radius:0!important;
+  transform:translateX(-50%) rotate(45deg)!important;
+  z-index:3!important;
+}
+
+.animal-hotspot::after{
+  background:#ffd52f!important;
+  border:4px solid #4a2605!important;
+  box-shadow:0 0 10px #fff08e!important;
+}
+
+.plant-hotspot::after{
+  background:#8fe52f!important;
+  border:4px solid #244d0c!important;
+  box-shadow:0 0 10px #d7ff83!important;
+}
+
+@keyframes animalContourGlow{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 2px #fff7a4)
+      drop-shadow(0 0 5px #ffd93b)
+      drop-shadow(0 0 9px #ffb300);
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 3px #fffbd0)
+      drop-shadow(0 0 8px #ffe56c)
+      drop-shadow(0 0 15px #ffb300);
+  }
+}
+
+@keyframes plantContourGlow{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 2px #eaff9a)
+      drop-shadow(0 0 5px #9dff45)
+      drop-shadow(0 0 10px #55c92f);
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 3px #f3ffd0)
+      drop-shadow(0 0 8px #baff71)
+      drop-shadow(0 0 16px #55c92f);
+  }
+}
+
+
+/* ===== v3.2 restored complete map movement ===== */
+.walker{
+  display:block!important;
+  z-index:24!important;
+  pointer-events:none!important;
+}
+.walker #walkerSprite{
+  display:block!important;
+  background-repeat:no-repeat!important;
+  image-rendering:pixelated!important;
+}
+.landmark{
+  z-index:18!important;
+}
+.animal-hotspot,
+.plant-hotspot{
+  z-index:19!important;
+}
+
+
+/* ===== v3.3 clear small entrance rings ===== */
+
+/* Remove the previous oversized glow/arrow treatments. */
+.animal-hotspot::before,
+.animal-hotspot::after,
+.plant-hotspot::before,
+.plant-hotspot::after{
+  display:none!important;
+  content:none!important;
+}
+
+.animal-hotspot img,
+.plant-hotspot img{
+  filter:none!important;
+  animation:none!important;
+}
+
+/* Hide old text labels so they no longer point to the wrong place. */
+.animal-hotspot > span:not(.entry-ring),
+.plant-hotspot > span:not(.entry-ring){
+  display:none!important;
+}
+
+/* The hotspot itself stays clickable, but only a small ring is visible. */
+.animal-hotspot,
+.plant-hotspot{
+  position:absolute!important;
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+
+.entry-ring{
+  position:absolute!important;
+  display:block!important;
+  width:28px!important;
+  height:28px!important;
+  border-radius:50%!important;
+  pointer-events:none!important;
+  z-index:9!important;
+  box-sizing:border-box!important;
+  background:transparent!important;
+  transform:translate(-50%,-50%)!important;
+  animation:smallEntryPulse 1.3s ease-in-out infinite!important;
+}
+
+/* Yellow ring placed over the dolphin itself. */
+.animal-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  border:4px solid #ffd83d!important;
+  box-shadow:
+    0 0 0 2px rgba(68,38,4,.9),
+    0 0 8px 3px rgba(255,216,61,.75)!important;
+}
+
+/* Green ring placed over the large tree itself. */
+.plant-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  border:4px solid #8de34a!important;
+  box-shadow:
+    0 0 0 2px rgba(28,67,12,.95),
+    0 0 8px 3px rgba(141,227,74,.72)!important;
+}
+
+@keyframes smallEntryPulse{
+  0%,100%{
+    transform:translate(-50%,-50%) scale(.92);
+    opacity:.78;
+  }
+  50%{
+    transform:translate(-50%,-50%) scale(1.08);
+    opacity:1;
+  }
+}
+
+/* Make the clickable areas modest and centered on the real objects. */
+.animal-hotspot{
+  width:5.2%!important;
+  height:7.6%!important;
+}
+
+.plant-hotspot{
+  width:5.8%!important;
+  height:8.4%!important;
+}
+
+
+/* ===== v3.4 subtle glowing entrance rings and corrected positions ===== */
+
+/* Move the green plant entrance below the AMAZON label into dense forest. */
+.plant-hotspot{
+  left:82.5%!important;
+  top:31.5%!important;
+  width:4.8%!important;
+  height:6.8%!important;
+}
+
+/* Move the yellow animal entrance directly onto the river near the pink dolphin. */
+.animal-hotspot{
+  left:78.3%!important;
+  top:54.2%!important;
+  width:4.8%!important;
+  height:6.8%!important;
+}
+
+.entry-ring{
+  width:25px!important;
+  height:25px!important;
+  opacity:.92!important;
+  transform:translate(-50%,-50%)!important;
+  animation:gentleGlowBreath 2.4s ease-in-out infinite!important;
+}
+
+/* Yellow fluorescent ring for the animal entrance. */
+.animal-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  border:3px solid rgba(255,224,76,.96)!important;
+  box-shadow:
+    0 0 0 1px rgba(89,55,5,.75),
+    0 0 5px 2px rgba(255,224,76,.48),
+    0 0 11px 4px rgba(255,205,39,.24)!important;
+}
+
+/* Green fluorescent ring for the plant entrance. */
+.plant-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  border:3px solid rgba(151,238,80,.96)!important;
+  box-shadow:
+    0 0 0 1px rgba(34,78,15,.78),
+    0 0 5px 2px rgba(151,238,80,.46),
+    0 0 11px 4px rgba(93,211,48,.22)!important;
+}
+
+/* A slow, soft breathing glow—no flashing and no obvious size jump. */
+@keyframes gentleGlowBreath{
+  0%,100%{
+    opacity:.76;
+    filter:brightness(.96);
+  }
+  50%{
+    opacity:1;
+    filter:brightness(1.18);
+  }
+}
+
+
+/* ===== v3.5 true soft glow, progression, backpack and treasure chest ===== */
+
+/* Slightly larger, thinner rings. The pseudo-element creates the visible halo. */
+.entry-ring{
+  width:31px!important;
+  height:31px!important;
+  border-width:2px!important;
+  overflow:visible!important;
+  opacity:1!important;
+  animation:ringCoreBreath 2.8s ease-in-out infinite!important;
+  will-change:filter,opacity,transform!important;
+}
+.entry-ring::before{
+  content:""!important;
+  position:absolute!important;
+  inset:-8px!important;
+  display:block!important;
+  border-radius:50%!important;
+  opacity:.32!important;
+  filter:blur(5px)!important;
+  animation:ringHaloBreath 2.8s ease-in-out infinite!important;
+}
+.animal-entry-ring{
+  border-color:#ffe568!important;
+  box-shadow:0 0 3px rgba(255,226,79,.55)!important;
+}
+.animal-entry-ring::before{
+  background:radial-gradient(circle,transparent 43%,rgba(255,224,70,.44) 56%,transparent 72%)!important;
+}
+.plant-entry-ring{
+  border-color:#a9ef70!important;
+  box-shadow:0 0 3px rgba(145,231,84,.52)!important;
+}
+.plant-entry-ring::before{
+  background:radial-gradient(circle,transparent 43%,rgba(133,231,76,.42) 56%,transparent 72%)!important;
+}
+@keyframes ringCoreBreath{
+  0%,100%{opacity:.72;filter:brightness(.92);transform:translate(-50%,-50%) scale(.985)}
+  50%{opacity:1;filter:brightness(1.22);transform:translate(-50%,-50%) scale(1.025)}
+}
+@keyframes ringHaloBreath{
+  0%,100%{opacity:.16;transform:scale(.92)}
+  50%{opacity:.48;transform:scale(1.12)}
+}
+
+/* HP: a half heart equals 10% HP. */
+.heart.empty{filter:grayscale(1);opacity:.2}
+.heart.half{position:relative;filter:grayscale(1);opacity:.28}
+.heart.half::after{
+  content:"";position:absolute;left:0;top:0;width:50%;height:100%;
+  background:inherit;filter:none;opacity:1;overflow:hidden
+}
+
+/* Backpack-style collection. */
+.bag-panel{max-width:820px!important}
+.backpack-shell{
+  position:relative;
+  margin:30px auto 5px;
+  padding:70px 28px 32px;
+  max-width:700px;
+  border:8px solid #402816;
+  background:
+    linear-gradient(90deg,transparent 48%,rgba(67,38,18,.2) 49%,rgba(67,38,18,.2) 51%,transparent 52%),
+    #a86c35;
+  box-shadow:inset 0 0 0 6px #d99b54,inset 0 -18px 0 rgba(74,39,17,.18);
+}
+.backpack-shell::before,
+.backpack-shell::after{
+  content:"";position:absolute;top:75px;bottom:30px;width:28px;
+  background:#70431f;border:5px solid #3b2413
+}
+.backpack-shell::before{left:-26px}.backpack-shell::after{right:-26px}
+.backpack-flap{
+  position:absolute;left:55px;right:55px;top:-26px;height:82px;
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  background:#875126;border:7px solid #402816;border-radius:18px 18px 8px 8px;
+  color:#ffe0a6;text-shadow:3px 3px #3d2514
+}
+.backpack-flap span{width:34px;height:15px;background:#d7a047;border:4px solid #402816}
+.backpack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.inventory-slot{
+  min-height:128px;padding:10px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#c69452;border:5px solid #4a2c17;box-shadow:inset 0 0 0 4px #e5bc76;
+  color:#34200f;text-align:center
+}
+.inventory-slot .slot-art{
+  width:68px;height:68px;display:grid;place-items:center;margin-bottom:8px;
+  background:#79512c;border:4px solid #3d2715;overflow:hidden
+}
+.inventory-slot img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.inventory-slot span{font-size:11px;font-weight:900}
+.inventory-slot.empty{opacity:.48}
+.inventory-slot.empty b{font-size:34px;color:#d7b478}
+.gem-art b{font-size:49px;color:#72e4d2;text-shadow:4px 0 #256d73,-4px 0 #256d73,0 4px #256d73,0 -4px #b8fff1}
+.backpack-empty{text-align:center;font-weight:900;color:#ffe3ad}
+@media(max-width:650px){.backpack-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Treasure chest reward scene. */
+.treasure-panel{
+  position:relative;width:min(620px,92vw);padding:38px 28px 30px;text-align:center;
+  overflow:hidden;background:#18344a;border:8px solid #071c2d;box-shadow:inset 0 0 0 6px #315c72;
+  color:#fff8d1
+}
+.treasure-rays{
+  position:absolute;inset:-45%;opacity:.3;
+  background:repeating-conic-gradient(from 0deg,rgba(255,231,97,.72) 0 10deg,transparent 10deg 24deg);
+  animation:treasureSpin 16s linear infinite
+}
+.pixel-chest{position:relative;width:220px;height:190px;margin:0 auto 14px;z-index:2}
+.chest-lid,.chest-base,.chest-lock{position:absolute;box-sizing:border-box}
+.chest-lid{
+  left:20px;top:44px;width:180px;height:70px;background:#a85b24;border:9px solid #43210f;
+  box-shadow:inset 0 0 0 7px #df913d;transform-origin:bottom center;
+  animation:openChest 1.05s cubic-bezier(.2,.9,.3,1) forwards
+}
+.chest-base{
+  left:20px;top:105px;width:180px;height:72px;background:#8b451d;border:9px solid #43210f;
+  box-shadow:inset 0 0 0 7px #c8752d
+}
+.chest-lid::after,.chest-base::after{
+  content:"";position:absolute;left:75px;top:-9px;width:22px;height:calc(100% + 18px);
+  background:#f1bd42;border:6px solid #62400f
+}
+.chest-lock{z-index:4;left:92px;top:103px;width:38px;height:43px;background:#f2c84e;border:7px solid #5c3a0e}
+.reward-row{position:relative;z-index:3;display:flex;justify-content:center;gap:18px;margin:18px 0}
+.reward-row article{min-width:150px;padding:13px;background:#102838;border:5px solid #4a778d}
+.reward-row span{display:block;font-size:42px}
+.reward-row b{font-size:30px}.reward-row small{display:block}
+.reward-coin{color:#ffd24a;text-shadow:3px 3px #7d4a07}
+.reward-gem{color:#76f1dc;text-shadow:4px 0 #276d78,-4px 0 #276d78,0 4px #276d78}
+.treasure-panel>small,.treasure-panel>h1,.treasure-panel>p,.treasure-claim{position:relative;z-index:3}
+.coin-burst{position:absolute;left:100px;top:95px;z-index:6;color:#ffd34c;font-style:normal;font-size:24px;opacity:0}
+.c1{animation:coinFly1 1.6s .65s ease-out forwards}.c2{animation:coinFly2 1.6s .75s ease-out forwards}
+.c3{animation:coinFly3 1.6s .85s ease-out forwards}.c4{animation:coinFly4 1.6s .95s ease-out forwards}
+.c5{animation:coinFly5 1.6s 1.05s ease-out forwards}
+@keyframes openChest{0%{transform:rotateX(0)}100%{transform:translateY(-36px) rotate(-18deg)}}
+@keyframes treasureSpin{to{transform:rotate(360deg)}}
+@keyframes coinFly1{30%{opacity:1}100%{opacity:0;transform:translate(-90px,-115px) rotate(220deg)}}
+@keyframes coinFly2{30%{opacity:1}100%{opacity:0;transform:translate(-45px,-145px) rotate(260deg)}}
+@keyframes coinFly3{30%{opacity:1}100%{opacity:0;transform:translate(0,-165px) rotate(320deg)}}
+@keyframes coinFly4{30%{opacity:1}100%{opacity:0;transform:translate(55px,-140px) rotate(380deg)}}
+@keyframes coinFly5{30%{opacity:1}100%{opacity:0;transform:translate(95px,-105px) rotate(440deg)}}
+
+
+/* ===== v3.6 replace glowing rings with integrated pixel-art entrances ===== */
+
+/* Remove every previous ring/glow animation. */
+.entry-ring,
+.entry-ring::before,
+.entry-ring::after{
+  animation:none!important;
+  filter:none!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:none!important;
+  opacity:1!important;
+}
+
+/* Keep the entrances clearly clickable without drawing circles or boxes. */
+.animal-hotspot,
+.plant-hotspot{
+  overflow:visible!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+
+/* ------------------------------------------------------------------
+   GREEN PLANT ENTRANCE — a compact Minecraft-style jungle tree.
+   ------------------------------------------------------------------ */
+.plant-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  width:44px!important;
+  height:54px!important;
+  transform:translate(-50%,-62%)!important;
+  image-rendering:pixelated!important;
+}
+
+/* Trunk and lower crown. */
+.plant-entry-ring::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:17px!important;
+  top:22px!important;
+  width:10px!important;
+  height:30px!important;
+  background:#6b431f!important;
+  box-shadow:
+    0 0 0 3px #352313,
+    -4px 5px 0 #8d5d2e,
+    4px 12px 0 #4f321a,
+    -12px -13px 0 2px #2f7e35,
+    8px -13px 0 2px #256b2e,
+    -16px -5px 0 2px #318b39,
+    12px -5px 0 2px #2a7733,
+    -8px -21px 0 2px #439e43,
+    4px -22px 0 2px #3a903d,
+    -2px -29px 0 2px #56aa49!important;
+}
+
+/* Small leaf highlights so it belongs to the bright map art. */
+.plant-entry-ring::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:10px!important;
+  top:5px!important;
+  width:7px!important;
+  height:7px!important;
+  background:#74c95d!important;
+  box-shadow:
+    11px 3px 0 #5db54c,
+    19px 10px 0 #78c85b,
+    -5px 12px 0 #63b84f,
+    7px 17px 0 #4ea343!important;
+}
+
+/* ------------------------------------------------------------------
+   YELLOW ANIMAL ENTRANCE — a small pixel river animal.
+   It reads as an animal marker while staying natural on the water.
+   ------------------------------------------------------------------ */
+.animal-entry-ring{
+  left:50%!important;
+  top:50%!important;
+  width:52px!important;
+  height:34px!important;
+  transform:translate(-50%,-50%)!important;
+  image-rendering:pixelated!important;
+}
+
+/* Golden animal body, head and tail. */
+.animal-entry-ring::before{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:12px!important;
+  top:10px!important;
+  width:27px!important;
+  height:15px!important;
+  background:#e6b63b!important;
+  box-shadow:
+    0 0 0 3px #6b4a18,
+    21px -4px 0 -1px #f1c64a,
+    26px -1px 0 -1px #e6b63b,
+    -8px -5px 0 -1px #d99e2f,
+    -12px -9px 0 -1px #e9bd42,
+    -12px 7px 0 -1px #ce8e29,
+    5px 13px 0 -2px #9d6b22,
+    18px 13px 0 -2px #9d6b22!important;
+}
+
+/* Eye, snout and water-contact pixels. */
+.animal-entry-ring::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:39px!important;
+  top:9px!important;
+  width:4px!important;
+  height:4px!important;
+  background:#172215!important;
+  box-shadow:
+    6px 5px 0 #714617,
+    -31px 18px 0 #8fdddf,
+    -21px 20px 0 #69c6ce,
+    -10px 18px 0 #8fdddf,
+    2px 20px 0 #69c6ce!important;
+}
+
+/* Tiny natural idle motion, not a glow or flashing effect. */
+.plant-entry-ring{
+  animation:pixelTreeIdle 3.8s ease-in-out infinite!important;
+  transform-origin:50% 100%!important;
+}
+.animal-entry-ring{
+  animation:pixelAnimalFloat 2.6s ease-in-out infinite!important;
+}
+
+@keyframes pixelTreeIdle{
+  0%,100%{transform:translate(-50%,-62%) rotate(-1deg)}
+  50%{transform:translate(-50%,-62%) rotate(1deg)}
+}
+@keyframes pixelAnimalFloat{
+  0%,100%{transform:translate(-50%,-50%) translateY(0)}
+  50%{transform:translate(-50%,-50%) translateY(-3px)}
+}
+
+/* Make both visual markers large enough to notice, while click areas remain modest. */
+.plant-hotspot{
+  width:6.2%!important;
+  height:9.5%!important;
+}
+.animal-hotspot{
+  width:6.5%!important;
+  height:8.5%!important;
+}
+
+
+/* ===== v3.7 final: real PNG entrance sprites + subtle permanent highlight ===== */
+.entry-ring,.entry-ring::before,.entry-ring::after{display:none!important}
+.hotspot::before,.hotspot::after{display:none!important;content:none!important}
+.hotspot{overflow:visible!important;background:transparent!important;border:0!important;padding:0!important;transform:none!important}
+.hotspot .entry-sprite{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:contain!important;image-rendering:pixelated;transform-origin:50% 72%;pointer-events:none}
+.plant-hotspot{left:84.8%!important;top:16.5%!important;width:9.2%!important;height:17.2%!important;z-index:16!important}
+.animal-hotspot{left:74.55%!important;top:53.05%!important;width:4.65%!important;height:7.05%!important;z-index:16!important}
+.tree-entry-sprite{filter:brightness(1.08) saturate(1.06) drop-shadow(0 0 2px rgba(188,255,92,.78)) drop-shadow(0 2px 1px rgba(20,44,7,.85));animation:treeEntranceIdle 2.8s steps(4,end) infinite}
+.dolphin-entry-sprite{filter:brightness(1.10) saturate(1.08) drop-shadow(0 0 2px rgba(255,166,222,.82)) drop-shadow(0 2px 1px rgba(49,20,51,.8));animation:dolphinEntranceIdle 2.1s steps(4,end) infinite}
+.hotspot:hover .entry-sprite,.hotspot:focus-visible .entry-sprite{filter:brightness(1.18) saturate(1.14) drop-shadow(0 0 3px rgba(255,240,153,.92)) drop-shadow(0 3px 2px rgba(21,21,12,.88));transform:scale(1.025)}
+.hotspot:focus-visible{outline:2px solid #ffe37a;outline-offset:4px}
+.hotspot > span:not(.entry-ring){bottom:-12%!important;opacity:0!important;transition:none!important}
+.hotspot:hover > span:not(.entry-ring),.hotspot:focus-visible > span:not(.entry-ring){opacity:1!important}
+@keyframes treeEntranceIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes dolphinEntranceIdle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2px) rotate(-1deg)}}
+@media (prefers-reduced-motion:reduce){.tree-entry-sprite,.dolphin-entry-sprite{animation:none!important}}
+
+/* ===== v3.7 real pixel-art treasure scene (no CSS-built chest) ===== */
+#chestOverlay.chest-scene{background:rgba(4,12,18,.72)!important;backdrop-filter:none!important}
+#chestOverlay .treasure-panel{width:min(620px,90vw)!important;background:linear-gradient(#31200f,#1c1109)!important;border:6px solid #130b06!important;outline:4px solid #b77b24!important;box-shadow:inset 0 0 0 4px #6f4317,0 12px 0 rgba(0,0,0,.4)!important;padding:24px 28px 26px!important}
+.pixel-reward-stage{position:relative;width:260px;height:190px;margin:0 auto 8px;image-rendering:pixelated}
+.chest-sprite{position:absolute;left:50%;bottom:0;width:160px;height:136px;object-fit:contain;image-rendering:pixelated;transform:translateX(-50%)}
+.chest-closed{animation:chestDrop 1.05s steps(8,end) both,chestCloseFade .01s linear 1.45s forwards}
+.chest-open{opacity:0;animation:chestOpenShow .01s linear 1.45s forwards,chestOpenBounce .55s steps(4,end) 1.45s both}
+.reward-pop{position:absolute;width:42px;height:42px;opacity:0;image-rendering:pixelated;animation:rewardPop .85s steps(6,end) forwards}
+.reward-pop.r1{left:44px;bottom:72px;animation-delay:1.75s}
+.reward-pop.r2{right:42px;bottom:70px;animation-delay:1.9s}
+.reward-pop.r3{left:109px;bottom:88px;animation-delay:2.05s}
+.reward-row article img{width:46px;height:46px;image-rendering:pixelated;display:block;margin:0 auto 4px}
+.reward-coin,.reward-gem,.treasure-rays,.pixel-chest,.coin-burst{display:none!important}
+@keyframes chestDrop{0%{transform:translate(-50%,-150px);opacity:0}65%{transform:translate(-50%,8px);opacity:1}82%{transform:translate(-50%,-7px)}100%{transform:translate(-50%,0)}}
+@keyframes chestCloseFade{to{opacity:0}}
+@keyframes chestOpenShow{to{opacity:1}}
+@keyframes chestOpenBounce{0%{transform:translate(-50%,0) scaleY(.92)}55%{transform:translate(-50%,-8px) scaleY(1.04)}100%{transform:translate(-50%,0) scaleY(1)}}
+@keyframes rewardPop{0%{opacity:0;transform:translateY(35px) scale(.5)}55%{opacity:1;transform:translateY(-34px) scale(1.08)}100%{opacity:1;transform:translateY(-18px) scale(1)}}
