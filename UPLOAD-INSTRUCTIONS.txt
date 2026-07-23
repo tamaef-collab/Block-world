@@ -1,0 +1,22 @@
+Block World Peru – GitHub 上传说明
+
+1. 先解压本压缩包。
+2. 保留你原来仓库里的 index.html（登录页面），不要删除或覆盖。
+3. 把本文件夹中的以下内容上传到 GitHub 仓库最外层，与 index.html 同一级：
+   - peru.html
+   - peru.css
+   - peru.js
+   - assets 文件夹（必须整个上传）
+   - lima.html
+   - nazca.html
+   - andes.html
+   - machu.html
+   - amazon.html
+   - lake.html
+4. UPLOAD-INSTRUCTIONS.txt 只是说明文件，不上传也可以。
+5. 登录成功后的跳转地址应当是：
+   window.location.href = "peru.html";
+
+重要：
+- 不要只上传 peru.html；peru.css、peru.js 和 assets 缺少任何一个，页面都会不完整。
+- 不要把外层文件夹再套一层上传。打开仓库最外层时应当能直接看到 index.html 和 peru.html。

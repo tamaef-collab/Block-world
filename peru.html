@@ -1,1 +1,90 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Peru – Block World Explorer</title><style>body{margin:0;display:grid;place-items:center;min-height:100vh;background:#071b18;color:#ffe085;font:700 22px "Courier New";text-align:center}a{color:#9ed54b}</style></head><body><main><h1>PERU</h1><p>Die Peru-Welt wird als eigene Seite weitergebaut.</p><a href="index.html">Zurück zur Anmeldung</a></main></body></html>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#06264a">
+  <title>Block World – Peru</title>
+  <link rel="stylesheet" href="peru.css">
+</head>
+<body>
+  <main class="stage">
+    <section class="map" id="map">
+      <img class="map-art" src="assets/peru-map.png" alt="Abenteuerkarte von Peru">
+
+      <div class="game-hud" aria-label="Spielstatus">
+        <div class="hud-brand" aria-label="Block World"><i></i><strong>BLOCK<br>WORLD</strong></div>
+        <div class="player-hud" aria-label="Spielerprofil">
+          <button class="profile-button" id="profileButton" aria-label="Figur bearbeiten">
+            <span class="portrait-cleaner"><img id="profilePortrait" src="assets/01-white-shirt-man.png" alt=""></span>
+          </button>
+          <button class="name-button" id="nameButton" aria-label="Name bearbeiten">
+            <span id="playerName">Mein Name</span><span class="pencil" aria-hidden="true">✎</span>
+          </button>
+        </div>
+        <div class="hud-stat health-stat"><b>HP</b><span class="hearts" aria-label="fünf Lebenspunkte">♥ ♥ ♥ ♥ ♥</span></div>
+        <div class="hud-stat energy-stat"><b>ENERGY</b><span class="meter"><i></i></span><strong>80%</strong></div>
+        <div class="hud-stat xp-stat"><b>XP</b><span class="meter"><i id="xpBar"></i></span><strong id="xpText">0 / 500</strong></div>
+        <div class="hud-stat coin-stat"><span class="coin-icon">S</span><strong id="coinText">0</strong></div>
+      </div>
+
+      <div id="landmarks"></div>
+
+      <button class="hotspot tree-hotspot" id="treeHotspot" aria-label="Pflanzenspiel öffnen">
+        <img src="assets/tree-control-v2.png" onerror="this.src='assets/tree-control.png'" alt="Großer Amazonasbaum"><span>PFLANZENSPIEL</span>
+      </button>
+      <button class="hotspot dolphin-hotspot" id="dolphinHotspot" aria-label="Tierspiel öffnen">
+        <img src="assets/dolphin-control-v2.png" onerror="this.src='assets/dolphin-control.png'" alt="Rosa Flussdelfin"><span>TIERSPIEL</span>
+      </button>
+
+      <button class="bag-button" id="bagButton" aria-label="Rucksack und Sammlung öffnen">
+        <span class="bag-art" aria-hidden="true"></span><small>RUCKSACK</small>
+      </button>
+
+      <div class="walker" id="walker" aria-hidden="true"><div id="walkerSprite"></div><i></i></div>
+      <div class="route-message" id="routeMessage">Wähle ein Reiseziel.</div>
+    </section>
+  </main>
+
+  <div class="overlay hidden" id="characterOverlay">
+    <section class="pixel-panel character-panel" role="dialog" aria-modal="true" aria-labelledby="characterTitle">
+      <button class="close-button" data-close="characterOverlay" aria-label="Schließen">×</button>
+      <p class="eyebrow">DEIN ABENTEUER</p>
+      <h1 id="characterTitle">Wähle deine Figur</h1>
+      <div class="character-grid" id="characterGrid"></div>
+      <div class="name-editor">
+        <label for="nameInput">Wie heißt deine Figur?</label>
+        <div><input id="nameInput" maxlength="18" autocomplete="off" placeholder="Name eingeben"><button id="saveName">SPEICHERN</button></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="overlay hidden" id="gameOverlay">
+    <section class="console" role="dialog" aria-modal="true">
+      <button class="close-button console-close" data-close="gameOverlay" aria-label="Schließen">×</button>
+      <div class="console-brand">BLOCK WORLD · POCKET</div>
+      <div class="lcd-shell">
+        <div class="lcd-top"><b id="gameTitle">AMAZONAS-FREUND</b><span id="gameDay">TAG 01</span></div>
+        <canvas id="gameCanvas" width="240" height="152" aria-label="Animiertes Pixelspiel"></canvas>
+        <div class="lcd-stats" id="lcdStats"></div>
+      </div>
+      <div class="console-controls" id="gameControls"></div>
+      <p class="console-hint" id="consoleHint">Klicke auch direkt auf die Figur im Bildschirm.</p>
+    </section>
+  </div>
+
+  <div class="overlay hidden" id="bagOverlay">
+    <section class="pixel-panel bag-panel" role="dialog" aria-modal="true">
+      <button class="close-button" data-close="bagOverlay" aria-label="Schließen">×</button>
+      <div class="collection-heading"><span class="large-backpack" aria-hidden="true"><i></i></span><div><p class="eyebrow">DEINE FUNDSTÜCKE</p><h1>Abenteurer-Rucksack</h1></div></div>
+      <div class="collection">
+        <article class="collect-flower"><b><i></i></b><span>Amazonasblüte</span></article>
+        <article class="collect-cacao"><b><i></i></b><span>Kakaofrucht</span></article>
+        <article class="collect-pearl"><b><i></i></b><span>Flussperle</span></article>
+        <article class="locked"><b><i>?</i></b><span>Noch verborgen</span></article>
+      </div>
+    </section>
+  </div>
+  <script src="peru.js"></script>
+</body>
+</html>

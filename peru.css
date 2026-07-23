@@ -1,0 +1,217 @@
+:root{--gold:#f3bb2d;--ink:#180e06;--cream:#fff0b1;--lcd:#aec391;--lcd-dark:#24352b}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#052447}button,input{font:inherit}button{color:inherit}
+.stage{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 25%,#14689b,#041a35 72%)}
+.map{position:relative;width:min(100vw,177.68vh);aspect-ratio:1672/941;overflow:hidden;isolation:isolate;box-shadow:0 22px 80px #000b}.map-art{position:absolute;inset:0;width:100%;height:100%}
+.profile-button,.name-button{position:absolute;z-index:20;border:0;background:transparent;cursor:pointer}.profile-button{left:17.7%;top:2.15%;width:5.05%;height:7.35%;overflow:hidden}.profile-button img{position:absolute;width:72%;height:auto;left:14%;top:-20%;filter:drop-shadow(1px 2px #0008)}.name-button{left:22.55%;top:2.05%;height:7.05%;width:10.6%;display:flex;align-items:center;justify-content:center;gap:.55vw;background:linear-gradient(90deg,#181108 0 88%,transparent);border-left:1px solid #8e682b;border-right:1px solid #4d3517;color:#fff8db;font:700 clamp(7px,.96vw,17px) "Courier New",monospace;text-shadow:2px 2px #000}.pencil{color:#f1c75b;font-size:1.35em;transform:rotate(-10deg)}.profile-button:hover,.name-button:hover{filter:brightness(1.3)}
+.landmark{position:absolute;z-index:12;width:8%;height:8%;transform:translate(-50%,-50%);border:0;background:transparent;cursor:pointer}.landmark span{position:absolute;left:50%;top:-15%;transform:translate(-50%,-5px);opacity:0;padding:.3vw .55vw;background:#160f09e8;border:1px solid var(--gold);font:700 clamp(6px,.62vw,11px) Arial;color:var(--cream);white-space:nowrap;transition:.15s}.landmark:hover span,.landmark:focus-visible span{opacity:1;transform:translate(-50%,0)}.landmark:hover{filter:drop-shadow(0 0 8px #fff9b0) brightness(1.18)}
+.hotspot{position:absolute;z-index:14;border:0;background:transparent;padding:0;cursor:pointer}.hotspot img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0;transition:opacity .16s;pointer-events:none}.hotspot:hover img,.hotspot:focus-visible img{opacity:1}.hotspot span{position:absolute;left:50%;bottom:-11%;transform:translate(-50%,7px);opacity:0;color:#192307;background:#f4e66be8;border:2px solid #25300e;padding:.25vw .48vw;font:900 clamp(6px,.58vw,11px) Arial;white-space:nowrap;transition:.15s}.hotspot:hover span,.hotspot:focus-visible span{opacity:1;transform:translate(-50%,0)}
+.tree-hotspot{left:74.3%;top:18.4%;width:11.6%;height:25.4%}.tree-hotspot:hover img{filter:drop-shadow(0 0 2px #ffff97) drop-shadow(0 0 8px #f6ff3d) brightness(1.18)}
+.dolphin-hotspot{left:75.55%;top:51.4%;width:5.2%;height:8.3%;transform:rotate(-4deg)}.dolphin-hotspot:hover img{filter:drop-shadow(0 0 2px #fff8a0) drop-shadow(0 0 8px #f3ff4b) brightness(1.25)}
+.bag-button{position:absolute;z-index:18;left:5.4%;bottom:3.8%;width:5.3%;aspect-ratio:1;border:3px solid #2a1605;outline:2px solid #d9a32f;background:linear-gradient(135deg,#6a471e,#211407);box-shadow:inset 0 0 0 2px #9b6a28,4px 5px #0007;cursor:pointer}.bag-button span{font-size:2.7vw;color:#eec85c}.bag-button small{position:absolute;left:50%;top:100%;transform:translateX(-50%);font:800 .52vw Arial;color:#fff1a8}.bag-button:hover{filter:brightness(1.25);translate:0 -2px}
+.walker{position:absolute;z-index:17;width:5.8%;height:15.2%;left:28.7%;top:57%;transform:translate(-50%,-86%);pointer-events:none}.walker>div{position:relative;z-index:2;width:100%;height:100%;background-image:url("assets/walker.png");background-size:400% 400%;background-repeat:no-repeat;background-position:0 0;filter:drop-shadow(0 3px 2px #07150aa0)}.walker i{position:absolute;left:25%;right:25%;bottom:3%;height:8%;border-radius:50%;background:#07150b75;filter:blur(2px)}
+.route-message{position:absolute;z-index:16;left:50%;bottom:1.8%;transform:translateX(-50%);padding:.33vw .85vw;background:#130d08e8;border:1px solid #d6a32e;color:#fff0b7;font:700 clamp(6px,.65vw,12px) Arial;box-shadow:2px 3px #0008;white-space:nowrap}
+.hidden{display:none!important}.overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:3vh 3vw;background:#000b;backdrop-filter:blur(4px)}
+.pixel-panel{position:relative;width:min(1080px,94vw);max-height:92vh;overflow:auto;padding:28px;background:linear-gradient(#3c2813,#160d07);border:4px solid #16100a;outline:4px solid #d09b2c;box-shadow:inset 0 0 0 3px #78501f,0 25px 90px #000}.pixel-panel:before{content:"";position:absolute;inset:10px;border:1px solid #9e722e;pointer-events:none}.pixel-panel h1{position:relative;margin:0 0 20px;text-align:center;color:#ffd25a;font:900 clamp(25px,3.2vw,48px) Georgia;text-shadow:3px 3px #743608}.eyebrow{position:relative;text-align:center;margin:0 0 5px;color:#9bd05c;font:800 11px Arial;letter-spacing:.18em}.close-button{position:absolute;z-index:10;right:14px;top:12px;width:42px;height:42px;border:2px solid #c18d31;background:#25160a;color:#ffd45d;font-size:29px;line-height:1;cursor:pointer}.close-button:hover{filter:brightness(1.4)}
+.character-grid{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:13px}.character-card{position:relative;height:340px;overflow:hidden;padding:0;border:2px solid #745322;background:radial-gradient(circle at 50% 35%,#47726a,#122720 72%);cursor:pointer}.character-card img{position:absolute;left:7%;top:3%;width:86%;height:94%;object-fit:contain;filter:drop-shadow(0 7px 5px #0007)}.character-card:hover,.character-card.selected{border-color:#ffe05f;box-shadow:0 0 0 2px #211405,0 0 16px #ffd34b}.character-card.selected:after{content:"✓";position:absolute;right:7px;top:7px;display:grid;place-items:center;width:27px;height:27px;background:#f3bd2e;border:2px solid #1b1008;color:#271406;font:900 18px Arial}
+.name-editor{position:relative;margin:20px auto 0;max-width:580px;padding:14px 17px;background:#110d09;border:2px solid #815d25}.name-editor label{display:block;margin-bottom:8px;color:#f4dd9f;font:800 12px Arial}.name-editor>div{display:flex;gap:9px}.name-editor input{min-width:0;flex:1;padding:12px 14px;border:2px solid #a77a2d;background:#f8edcf;color:#21150d;font:800 18px Arial;outline:none}.name-editor input:focus{box-shadow:0 0 0 3px #f0bf39}.name-editor button,.console-controls button{border:3px solid #130d07;outline:2px solid #d7a137;background:linear-gradient(#d99b2a,#8e4e0a);padding:10px 17px;color:#fff1bc;font:900 12px Arial;text-shadow:2px 2px #542a06;cursor:pointer}.name-editor button:hover,.console-controls button:hover{filter:brightness(1.18);translate:0 -1px}
+.console{position:relative;width:min(760px,94vw);padding:48px 55px 34px;border-radius:34px;background:linear-gradient(145deg,#d7cdb7,#948a79);border:5px solid #413b32;box-shadow:inset 7px 7px #eee7d8,inset -8px -9px #71695c,0 28px 90px #000}.console-brand{text-align:center;margin-bottom:13px;color:#4a443a;font:900 16px Arial;letter-spacing:.18em}.console-close{top:16px;right:19px;background:#6a604f;border-color:#302b24;color:#fff}.lcd-shell{padding:12px 14px 15px;border-radius:10px;background:#4b5147;border:5px solid #282c27;box-shadow:inset 0 0 0 2px #788174}.lcd-top,.lcd-stats{display:flex;justify-content:space-between;align-items:center;background:var(--lcd);color:var(--lcd-dark);font:900 11px "Courier New",monospace;letter-spacing:.04em}.lcd-top{padding:4px 6px 2px}.lcd-stats{gap:14px;padding:2px 6px 5px}.lcd-stats span{flex:1}.lcd-meter{display:inline-block;width:48px;height:7px;margin-left:5px;border:1px solid var(--lcd-dark);vertical-align:middle}.lcd-meter i{display:block;height:100%;background:var(--lcd-dark)}#gameCanvas{display:block;width:100%;aspect-ratio:240/152;background:var(--lcd);image-rendering:pixelated;cursor:pointer}.console-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:25px}.console-controls button{min-width:104px;border-radius:12px;height:54px;box-shadow:0 5px #4a2810}.console-controls button:nth-last-child(-n+2){border-radius:50%;height:62px}.console-hint{text-align:center;margin:18px 0 0;color:#413b32;font:800 11px Arial}.bag-panel{width:min(720px,93vw)}.collection{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.collection article{height:190px;display:grid;grid-template-rows:1fr auto;place-items:center;border:3px solid #7e5a24;background:radial-gradient(circle,#3d6659,#10241e);box-shadow:inset 0 0 0 3px #140d08}.collection b{font-size:64px;color:#e7b839;text-shadow:4px 4px #633810}.collection span{width:100%;padding:10px;text-align:center;background:#130e09df;color:#f4dfa4;font:800 11px Arial}.collection .locked{filter:grayscale(1);opacity:.55}
+@media(max-width:800px){.character-grid{grid-template-columns:repeat(4,1fr)}.character-card{height:260px}.pixel-panel{padding:25px 18px}.console{padding:44px 22px 28px}.console-controls{gap:10px}.console-controls button{min-width:88px}.route-message{bottom:.8%}}
+
+/* Rebuilt HUD: this fully covers the painted sample bar in the map artwork. */
+.game-hud{
+  position:absolute;z-index:30;left:5.35%;right:5.55%;top:1.35%;height:8.35%;
+  display:grid;grid-template-columns:13.4% 16.8% 15% 22% 22% 10.8%;align-items:stretch;
+  color:#fff3c6;background:
+    linear-gradient(180deg,#0c0905 0 7%,#3b250e 8% 14%,#161008 15% 82%,#080604 83% 100%);
+  border:3px solid #0b0703;outline:2px solid #d79a20;
+  box-shadow:inset 0 0 0 2px #744816,inset 0 8px #27170a,inset 0 -7px #090603,4px 5px 0 #0008;
+  font-family:"Courier New",monospace;font-weight:900
+}
+.game-hud:before,.game-hud:after{content:"";position:absolute;z-index:5;width:11px;height:11px;border:3px solid #e2a72a;background:#27160a;transform:rotate(45deg)}
+.game-hud:before{left:-7px;top:-7px}.game-hud:after{right:-7px;bottom:-7px}
+.hud-brand{display:flex;align-items:center;gap:7%;padding:5% 8%;border-right:2px solid #4c3217;text-shadow:2px 2px #000;font-size:clamp(8px,1.25vw,22px);line-height:.86;color:#ffd445}
+.hud-brand i{position:relative;display:block;width:35%;aspect-ratio:1;background:linear-gradient(135deg,#8bd340 0 26%,#45a92f 27% 55%,#267427 56%);border:2px solid #1b320d;box-shadow:inset 3px 3px #b9ed5e,3px 3px #0008}
+.hud-brand i:after{content:"";position:absolute;left:19%;right:19%;bottom:-24%;height:28%;background:#7c4b1c;border:2px solid #301b09}
+.game-hud .player-hud{position:relative;left:auto;top:auto;width:auto;height:auto;display:grid;grid-template-columns:36% 64%;border:0!important;outline:0!important;box-shadow:none!important;background:#100b06;border-right:2px solid #4c3217!important}
+.game-hud .profile-button{position:relative;left:auto;top:auto;width:auto;height:auto;border:3px solid #7f541e!important;outline:2px solid #d7a237;overflow:hidden;background:linear-gradient(#214b44,#10251f);margin:5px;z-index:2}
+.game-hud .portrait-cleaner{position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,#477d6f,#10251f 72%);box-shadow:inset 0 0 0 2px #090704}
+.game-hud .profile-button img{position:absolute;width:88%;height:145%;object-fit:contain;object-position:center top;left:6%;top:-5%;filter:drop-shadow(2px 2px #0009)}
+.game-hud .name-button{position:relative;left:auto;top:auto;width:auto;height:auto;display:flex;align-items:center;justify-content:center;gap:7%;border:0;background:repeating-linear-gradient(0deg,#21150b 0 4px,#150e08 5px 9px);color:#fff5d0;font-size:clamp(7px,.88vw,16px);text-shadow:2px 2px #000}
+.game-hud .pencil{display:grid;place-items:center;width:1.8em;height:1.8em;border:1px solid #9c6b23;background:#38210d;color:#f1c75b;transform:rotate(-5deg)}
+.hud-stat{min-width:0;display:flex;align-items:center;justify-content:center;gap:5%;padding:0 6%;border-right:2px solid #4c3217;text-shadow:2px 2px #000;font-size:clamp(7px,.88vw,16px);white-space:nowrap}
+.health-stat .hearts{color:#ff3d3d;font-size:1.45em;letter-spacing:-.16em;text-shadow:1px 1px #7c0505,2px 2px #000}
+.hud-stat .meter{position:relative;flex:1;height:27%;min-width:24px;border:2px solid #080604;background:#050403;box-shadow:inset 0 0 0 1px #6b5532}
+.hud-stat .meter i{display:block;height:100%;width:80%;background:repeating-linear-gradient(90deg,#65cf48 0 13%,#288d2e 14% 16%);box-shadow:inset 0 2px #b6ef68}
+.xp-stat .meter i{width:0;background:repeating-linear-gradient(90deg,#65bcff 0 13%,#1766b8 14% 16%);box-shadow:inset 0 2px #b5e6ff;transition:width .25s}
+.coin-stat{border-right:0}.coin-icon{display:grid;place-items:center;width:2em;aspect-ratio:1;border-radius:50%;border:3px solid #6d3c06;background:#f6c62e;color:#8b4d08;box-shadow:inset 0 0 0 2px #fff08b,2px 2px #000;font-family:Georgia}
+.live-xp,.live-coins{display:none!important}
+
+/* The controls themselves are visible assets. Hover adds light behind the object only. */
+.tree-hotspot{left:69.4%;top:24.7%;width:10.2%;height:20.5%}
+.dolphin-hotspot{left:75.3%;top:51.4%;width:7.2%;height:10.5%;transform:rotate(-6deg)}
+.hotspot img{opacity:1;object-fit:contain}
+.hotspot:hover img,.hotspot:focus-visible img{opacity:1}
+.tree-hotspot:hover img,.tree-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #fff49a) drop-shadow(0 0 11px #eaff47) brightness(1.12)}
+.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #ffd3f0) drop-shadow(0 0 12px #ff7bca) brightness(1.12)}
+
+/* Illustrated inventory control and collection panel. */
+.bag-button{left:4.25%;bottom:4%;width:6.4%;aspect-ratio:1;background:linear-gradient(#2d1b0d,#120a05);border:4px solid #160b04;outline:3px solid #d6a13a;box-shadow:inset 0 0 0 3px #77501f,5px 6px #0008}
+.bag-art{left:17%;top:19%;width:66%;height:62%;border:3px solid #2c1708;border-radius:18% 18% 12% 12%;background:linear-gradient(90deg,#573013,#a96b28 24% 76%,#573013);box-shadow:inset 0 5px #d7963e,inset 0 -6px #3a1c09}
+.bag-art:before{left:20%;right:20%;top:-42%;height:51%;border:5px solid #43250f;border-bottom:0}
+.bag-art:after{content:""!important;inset:30% 31%;background:radial-gradient(circle,#f3d56f 0 18%,#c58b2a 20% 48%,#6a3510 50%);border:2px solid #3b1d09}
+.bag-button small{top:96%;font-size:clamp(5px,.55vw,10px);padding:2px 5px;background:#170d07;border:1px solid #c79638}
+.collection-heading{position:relative;display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:20px}
+.collection-heading h1{margin:0;text-align:left}.collection-heading .eyebrow{text-align:left}
+.large-backpack{position:relative;display:block;width:86px;height:92px;border:5px solid #251205;border-radius:20px 20px 12px 12px;background:linear-gradient(90deg,#5b3112,#aa6b27 22% 78%,#5b3112);box-shadow:inset 0 7px #d89842,inset 0 -8px #3a1b08,5px 6px #0008}
+.large-backpack:before{content:"";position:absolute;left:21px;right:21px;top:-29px;height:31px;border:7px solid #43250f;border-bottom:0;border-radius:50% 50% 0 0}
+.large-backpack i{position:absolute;left:20%;right:20%;bottom:15%;height:34%;border:3px solid #3a1b08;background:#d39a39;box-shadow:inset 0 4px #efc266}
+.collection article{height:210px;background:linear-gradient(145deg,#244f42,#0c211a);border:3px solid #76511f;outline:2px solid #d0a03b;box-shadow:inset 0 0 0 3px #120b06}
+.collection article b{position:relative;display:grid;place-items:center;width:92px;height:100px;margin-top:15px;background:radial-gradient(circle,#3f7763,#162e26 72%);border:2px solid #926827}
+.collection article b i{display:block;position:relative}.collect-flower b i{width:23px;height:23px;background:#ffd45d;box-shadow:24px 0 #e95fae,-24px 0 #dd70c3,0 24px #f29bce,0 -24px #f5b1dc;transform:rotate(45deg)}.collect-flower b i:after{content:"";position:absolute;inset:6px;background:#fff1a0}
+.collect-cacao b i{width:38px;height:67px;border-radius:45%;background:repeating-linear-gradient(90deg,#9d351f 0 6px,#e77e28 7px 13px,#ffc044 14px 17px);border:4px solid #57200f;transform:rotate(12deg)}
+.collect-pearl b i{width:48px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 28%,#fff 0 9%,#c8f4ee 12% 35%,#75bec3 70%);box-shadow:0 0 12px #b9ffff}
+.collection .locked b i{font:900 54px "Courier New";color:#e7c16b}
+
+@media(max-width:900px){
+  .game-hud{grid-template-columns:14% 22% 16% 23% 25%;right:3%;left:3%;height:9%}
+  .hud-brand{display:none}.coin-stat{position:absolute;right:1%;top:102%;height:42%;background:#161008;border:2px solid #b47d24}
+  .collection{grid-template-columns:repeat(2,1fr)}
+}
+
+/* Drawn pixel thumbnails replace emoji and generic symbols in selection controls. */
+.plant-choice i,.pet-choice i{position:relative;overflow:hidden;image-rendering:pixelated}
+.plant-choice i:before,.plant-choice i:after,.pet-choice i:before,.pet-choice i:after{content:"";position:absolute}
+.cacao-choice i{background:#24472c}
+.cacao-choice i:before{left:17px;top:7px;width:6px;height:30px;background:#7b4a22;box-shadow:-10px 7px 0 -1px #3f8f40,10px 2px 0 -1px #62b74e,-13px 16px 0 #38813b,12px 17px 0 #75c65a}
+.cacao-choice i:after{left:11px;top:14px;width:7px;height:13px;border-radius:40%;background:#df7427;box-shadow:18px 6px #9f3e24}
+.orchid-choice i{background:#263f31}.orchid-choice i:before{left:18px;top:16px;width:5px;height:22px;background:#4d9d4b;box-shadow:-8px 10px 0 2px #27743b,8px 8px 0 2px #5db95a}
+.orchid-choice i:after{left:14px;top:8px;width:11px;height:11px;background:#f4a8df;box-shadow:-7px 3px #d969c3,7px 3px #ed8ed5,0 -6px #ffd0ee,0 7px #bf4bac}
+.lily-choice i{background:#184958}.lily-choice i:before{left:5px;top:25px;width:29px;height:9px;border-radius:50%;background:#4bad61;box-shadow:9px -5px #287e4d}
+.lily-choice i:after{left:16px;top:11px;width:10px;height:10px;background:#fff0ab;box-shadow:-7px 4px #f19abf,7px 4px #f5b2cf,0 -6px #fff7cf,0 7px #dc729e}
+.dolphin-choice i{background:#2e8db1}.dolphin-choice i:before{left:6px;top:16px;width:29px;height:13px;border-radius:55% 70% 55% 55%;background:linear-gradient(#f8add3,#df5fa5);box-shadow:inset 0 -4px #b63e83}
+.dolphin-choice i:after{left:3px;top:13px;width:9px;height:8px;background:#c8448c;clip-path:polygon(100% 50%,0 0,25% 50%,0 100%);box-shadow:28px 4px 0 -2px #f4a2cc}
+.capy-choice i{background:#55783b}.capy-choice i:before{left:5px;top:17px;width:28px;height:16px;border-radius:45% 36% 30% 34%;background:#ad7146;box-shadow:inset 0 -5px #784729,20px -9px 0 -3px #c38a5c}
+.capy-choice i:after{left:27px;top:13px;width:4px;height:4px;background:#19130e;box-shadow:-18px 21px 0 1px #56321f,2px 17px 0 1px #56321f}
+.sloth-choice i{background:#315f36}.sloth-choice i:before{left:9px;top:7px;width:24px;height:27px;border-radius:48% 48% 42% 42%;background:#88745f;box-shadow:inset 0 -7px #5c4b3e,-7px 15px 0 -3px #6c5a49,7px 15px 0 -3px #6c5a49}
+.sloth-choice i:after{left:14px;top:10px;width:14px;height:12px;border-radius:45%;background:#cfb797;box-shadow:-3px 3px 0 -1px #3b3027,5px 3px 0 -1px #3b3027}
+
+/* Final cascade guard: keep rebuilt controls above legacy compatibility styles. */
+.tree-hotspot{left:69.4%;top:24.7%;width:10.2%;height:20.5%}
+.dolphin-hotspot{left:75.3%;top:51.4%;width:7.2%;height:10.5%;transform:rotate(-6deg)}
+.hotspot img{opacity:1;object-fit:contain}
+.tree-hotspot:hover img,.tree-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #fff49a) drop-shadow(0 0 11px #eaff47) brightness(1.12)}
+.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{filter:drop-shadow(0 0 4px #ffd3f0) drop-shadow(0 0 12px #ff7bca) brightness(1.12)}
+.bag-button{left:4.25%;bottom:4%;width:6.4%;aspect-ratio:1;background:linear-gradient(#2d1b0d,#120a05);border:4px solid #160b04;outline:3px solid #d6a13a;box-shadow:inset 0 0 0 3px #77501f,5px 6px #0008}
+.bag-button .bag-art{left:17%;top:19%;width:66%;height:62%;border:3px solid #2c1708;border-radius:18% 18% 12% 12%;background:linear-gradient(90deg,#573013,#a96b28 24% 76%,#573013);box-shadow:inset 0 5px #d7963e,inset 0 -6px #3a1c09}
+.bag-button .bag-art:before{left:20%;right:20%;top:-42%;height:51%;border:5px solid #43250f;border-bottom:0}
+.bag-button .bag-art:after{content:""!important;inset:30% 31%;background:radial-gradient(circle,#f3d56f 0 18%,#c58b2a 20% 48%,#6a3510 50%);border:2px solid #3b1d09}
+
+/* Clean, aligned game interface. */
+.console{width:min(820px,95vw);padding:48px 48px 34px}
+.console-brand,.lcd-top,.lcd-stats,.console-controls button,.console-hint,.pet-name-editor{
+  font-family:"Trebuchet MS",Arial,sans-serif;
+}
+.console-brand{letter-spacing:.11em}
+.lcd-shell{padding:14px 16px 16px}
+#gameCanvas{border:2px solid #0b0905;background:#244b3c}
+.lcd-top,.lcd-stats{min-height:24px;padding:5px 8px;background:#18281f;color:#fff0b8;letter-spacing:.02em}
+.console-controls{display:grid;grid-template-columns:repeat(4,minmax(118px,1fr));align-items:stretch;gap:12px;margin-top:22px;padding:14px}
+.console-controls button,.name-editor button{
+  min-width:0;height:78px;margin:0;padding:9px 12px;border:3px solid #130b05;outline:2px solid #d9aa45;
+  background:linear-gradient(#c98525 0 48%,#8d4b10 49%);box-shadow:inset 0 0 0 2px #efbd55,0 5px #3f2108!important;
+  font-size:12px;line-height:1.15;letter-spacing:.025em;text-align:center;transform:none!important;translate:none!important
+}
+.console-controls button:hover{filter:brightness(1.14);transform:none!important;translate:none!important}
+.console-controls .plant-choice,.console-controls .pet-choice{height:88px;grid-template-columns:48px 1fr;gap:10px;text-align:left}
+.plant-choice i,.pet-choice i{width:44px;height:44px;border:2px solid #efc85c}
+.console-controls .tool-button,.console-controls .pet-tool{height:88px;grid-template-rows:48px auto}
+.pet-name-editor{grid-column:1/-1;width:100%;padding:14px 16px}
+.console-hint{font-size:12px;line-height:1.45}
+@media(max-width:700px){
+  .console{padding:45px 20px 28px}
+  .console-controls{grid-template-columns:repeat(2,minmax(110px,1fr))}
+}
+
+/* Ornate pixel-adventure finish: carved wood, brass trim and layered jungle texture. */
+.pixel-panel,.console{
+  background:
+    linear-gradient(90deg,transparent 0 48%,#d29b3520 49% 51%,transparent 52%),
+    repeating-linear-gradient(3deg,#3c2512 0 7px,#2a190d 8px 14px,#472b13 15px 19px);
+  border-radius:0;
+  border:5px solid #160d06;
+  outline:4px solid #d6a43b;
+  box-shadow:inset 0 0 0 3px #70491e,inset 0 0 34px #050200,0 26px 90px #000;
+}
+.console:before,.console:after{
+  content:"";position:absolute;z-index:1;left:10px;right:10px;height:8px;
+  background:repeating-linear-gradient(90deg,#8b5b20 0 18px,#e0b34d 19px 24px,#543313 25px 42px);
+  border:2px solid #1a0e05;
+}
+.console:before{top:10px}.console:after{bottom:10px}
+.console-brand{position:relative;z-index:2;color:#ffd360;font:900 17px "Courier New",monospace;text-shadow:3px 3px #5e2e08;letter-spacing:.14em}
+.lcd-shell{position:relative;z-index:2;border-radius:2px;border:5px solid #171008;outline:3px solid #b78331;background:#21160c;box-shadow:inset 0 0 0 2px #74501f,0 8px 18px #0009}
+.lcd-top,.lcd-stats{font-family:"Courier New",monospace;font-weight:900}
+.console-controls{position:relative;z-index:2;padding:13px;background:#1a1009c9;border:2px solid #74501f;box-shadow:inset 0 0 0 2px #0b0704}
+.console-controls button,.name-editor button{
+  border-radius:0!important;border:3px solid #150b04;outline:2px solid #d2a13d;
+  background:linear-gradient(#d39327 0 48%,#9b570d 49%);
+  box-shadow:inset 0 0 0 2px #f1bd4c,0 5px #4b2809!important;
+  font-family:"Courier New",monospace;letter-spacing:.02em;
+}
+.console-hint{position:relative;z-index:2;color:#f1d797;text-shadow:2px 2px #160b04}
+.console-controls .plant-choice{min-width:145px;height:76px;display:grid;grid-template-columns:42px 1fr;align-items:center;text-align:left;gap:7px}
+.plant-choice i{display:grid;place-items:center;width:38px;height:38px;background:#22351e;border:2px solid #f0c95a;color:#9dd56a;font:900 26px Georgia;text-shadow:none}
+.orchid-choice i{color:#ef9fdb}.lily-choice i{color:#fff2aa}
+.console-controls .tool-button{position:relative;min-width:128px;height:82px;padding:8px 12px 7px;display:grid;grid-template-rows:45px auto;place-items:center}
+.tool-button i{position:relative;display:block;width:50px;height:38px;filter:drop-shadow(2px 3px #2b1608)}
+.tool-button span{font-size:11px}
+.water-tool i:before{content:"";position:absolute;left:5px;top:10px;width:29px;height:23px;background:linear-gradient(135deg,#9db9a7,#496e66);border:3px solid #1c302d;box-shadow:inset 4px 3px #d4e3ce}
+.water-tool i:after{content:"";position:absolute;left:30px;top:12px;width:23px;height:8px;background:#75968a;border:3px solid #1c302d;transform:skewY(-16deg);box-shadow:-31px -12px 0 -7px #d4e3ce}
+.fertilizer-tool i:before{content:"";position:absolute;left:10px;top:3px;width:29px;height:32px;background:linear-gradient(90deg,#79502b,#c99f47 22% 78%,#79502b);border:3px solid #301b0c;clip-path:polygon(12% 0,88% 0,100% 100%,0 100%)}
+.fertilizer-tool i:after{content:"✦";position:absolute;left:19px;top:9px;color:#385727;font:900 20px Georgia;text-shadow:1px 1px #f8e392}
+.harvest-tool i:before{content:"";position:absolute;left:22px;top:1px;width:8px;height:35px;background:#86602d;border:2px solid #2e1809;transform:rotate(35deg)}
+.harvest-tool i:after{content:"";position:absolute;left:3px;top:2px;width:36px;height:22px;border:7px solid #e3c256;border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-18deg)}
+.console-controls button:disabled{filter:grayscale(1);opacity:.55;cursor:not-allowed}
+.character-card{background:
+  radial-gradient(circle at 50% 38%,#49766b 0 24%,#142c24 69%),
+  repeating-linear-gradient(90deg,#35220f 0 7px,#25160a 8px 14px);
+  box-shadow:inset 0 0 0 3px #171009,inset 0 -38px #100b07cc;
+}
+.character-card:before{content:"";position:absolute;inset:5px;border:1px solid #9b702a;pointer-events:none}
+.bag-button{background:
+  radial-gradient(ellipse at 50% 63%,#b46f24 0 22%,#6c3b15 23% 39%,transparent 40%),
+  linear-gradient(135deg,#6a471e,#211407);
+  border:4px solid #211206;outline:3px solid #d5a13b;box-shadow:inset 0 0 0 2px #a8752c,5px 7px #0008;
+}
+.bag-button span{font-size:0}.bag-button span:after{content:"◆";font-size:2.1vw;color:#e8b847;text-shadow:3px 3px #5b2b0b}
+
+/* Final HUD, precise hover entrances and illustrated rucksack. */
+.player-hud{position:absolute;z-index:20;left:17.45%;top:1.25%;width:16.3%;height:8.6%;display:flex;align-items:stretch;background:linear-gradient(#25180b,#100a05);border:2px solid #080503;outline:2px solid #bf8a2c;box-shadow:inset 0 0 0 2px #67451c,3px 4px #0008}
+.player-hud .profile-button,.player-hud .name-button{position:relative;left:auto;top:auto;width:auto;height:auto;border:0;cursor:pointer}
+.player-hud .profile-button{flex:0 0 33%;overflow:hidden;background:linear-gradient(145deg,#40746b,#132b25);border-right:2px solid #b17e29}
+.portrait-cleaner{position:absolute;inset:3px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#4f8375,#10241f 72%);box-shadow:inset 0 0 0 2px #100b06}
+.player-hud .profile-button img{position:absolute;width:82%;height:135%;object-fit:contain;object-position:50% 4%;left:9%;top:-7%;filter:drop-shadow(1px 2px #0008)}
+.player-hud .name-button{flex:1;display:flex;align-items:center;justify-content:center;gap:.55vw;background:repeating-linear-gradient(0deg,#22150a 0 4px,#181007 5px 8px);color:#fff8db;font:700 clamp(7px,.92vw,16px) "Courier New",monospace;text-shadow:2px 2px #000}
+.player-hud .pencil{display:grid;place-items:center;width:1.8em;height:1.8em;border:1px solid #9c6b23;background:#38210d;color:#f1c75b;font-size:1.2em;transform:rotate(-5deg)}
+.tree-hotspot{left:65.1%;top:19.6%;width:14.5%;height:24.5%}
+.tree-hotspot img{opacity:1;object-fit:contain;filter:none}
+.tree-hotspot:hover img,.tree-hotspot:focus-visible img{opacity:1;filter:drop-shadow(0 0 2px #fff7a0) drop-shadow(0 0 8px #eaff39) brightness(1.13)}
+.dolphin-hotspot{left:74.45%;top:51.9%;width:5.6%;height:8.5%;transform:rotate(-4deg)}
+.dolphin-hotspot img{opacity:1;filter:none}
+.dolphin-hotspot:hover img,.dolphin-hotspot:focus-visible img{opacity:1;filter:drop-shadow(0 0 2px #fff8a0) drop-shadow(0 0 8px #ffe54b) brightness(1.18)}
+.bag-button>span:after{content:none!important}
+.bag-art{position:absolute;left:18%;top:21%;width:64%;height:58%;border:3px solid #2c1708;border-radius:20% 20% 12% 12%;background:linear-gradient(90deg,#5f3212,#a96722 22% 78%,#5b2f11);box-shadow:inset 0 4px #cf8b34,inset 0 -5px #3c1d09}
+.bag-art:before{content:"";position:absolute;left:22%;right:22%;top:-42%;height:52%;border:4px solid #3b210d;border-bottom:0;border-radius:50% 50% 0 0}
+.bag-art:after{content:"✦";position:absolute;inset:17% 25%;display:grid;place-items:center;background:#d2a43c;border:2px solid #45260d;color:#5a2c0b;font:900 1.05vw Georgia}
+.console-controls .pet-choice{min-width:155px;height:78px;display:grid;grid-template-columns:44px 1fr;align-items:center;gap:9px;text-align:left}
+.pet-choice i{display:grid;place-items:center;width:42px;height:42px;background:#173b43;border:2px solid #f0c95a;font-size:25px;font-style:normal;text-shadow:none}
+.capy-choice i{background:#4e6d2f}.sloth-choice i{background:#2c5a33}
+.console-controls .pet-tool{position:relative;min-width:128px;height:82px;padding:8px 12px 7px;display:grid;grid-template-rows:45px auto;place-items:center}
+.pet-tool i{position:relative;display:block;width:50px;height:40px;filter:drop-shadow(2px 3px #2b1608)}
+.pet-tool span{font-size:11px}.food-tool i:before{content:"";position:absolute;left:8px;top:12px;width:34px;height:18px;background:#76bd54;border:3px solid #173418;border-radius:55% 12% 55% 12%;transform:rotate(-15deg)}
+.food-tool i:after{content:"";position:absolute;left:23px;top:5px;width:4px;height:30px;background:#d7e76d;border:2px solid #27451d;transform:rotate(36deg)}
+.play-tool i:before{content:"";position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff08a 0 16%,#e44f45 17% 50%,#8a241f 51%);border:3px solid #32120f}
+.heart-tool i:before{content:"♥";position:absolute;inset:0;display:grid;place-items:center;color:#ef5b72;font:900 43px Georgia;text-shadow:2px 2px #671a2a}
+.live-xp{position:absolute;z-index:22;left:68.5%;top:4.1%;width:13.1%;height:2.55%;pointer-events:none}.live-xp:before{content:"";position:absolute;inset:0;background:#14120e;border:2px solid #060503}.live-xp span{position:absolute;z-index:1;left:2px;top:2px;bottom:2px;width:0;background:repeating-linear-gradient(90deg,#40a6f0 0 14px,#1771bb 15px 17px);box-shadow:inset 0 2px #83d1ff}.live-xp b{position:absolute;z-index:2;left:105%;top:-13%;white-space:nowrap;color:#fff1c7;font:900 clamp(7px,.78vw,14px) "Courier New",monospace;text-shadow:2px 2px #000}.live-coins{position:absolute;z-index:22;right:3.3%;top:3.4%;min-width:4.5%;height:3.5%;display:flex;align-items:center;justify-content:flex-end;padding-right:.2vw;background:#171008;color:#fff1c7;font:900 clamp(8px,.88vw,16px) "Courier New",monospace;text-shadow:2px 2px #000;pointer-events:none}
+.release-tool i:before{content:"↗";position:absolute;inset:1px;display:grid;place-items:center;border:3px solid #295234;background:#6ab55f;color:#fff5b8;font:900 35px Georgia}
+.pet-name-editor{width:min(520px,100%);padding:10px 14px;background:#120c07;border:2px solid #8f6427;color:#f4dda0}.pet-name-editor label{display:block;margin-bottom:7px;font:900 11px "Courier New",monospace}.pet-name-editor>div{display:flex;gap:10px}.pet-name-editor input{min-width:0;flex:1;padding:11px 13px;border:3px solid #2b1708;outline:2px solid #d1a03e;background:#fff0c9;color:#27170b;font:900 17px "Courier New",monospace}.pet-name-editor button{height:auto!important;min-width:170px!important}
