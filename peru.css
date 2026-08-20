@@ -830,3 +830,23 @@ body{font-family:"Lucida Console","Monaco","Courier New",monospace;image-renderi
 .inventory-slot i{position:absolute;right:5px;top:5px;padding:2px 4px;background:#1b0f08;border:2px solid #d1a03d;color:#fff1b0;font-size:9px;font-style:normal;font-weight:900}
 .backpack-progress{text-align:center;margin:14px 0 0;color:#ffe3a3;font-weight:900;text-shadow:2px 2px #3b1d0b}
 @media(max-width:760px){.backpack-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.bag-button{width:70px!important;right:16px!important}}
+
+/* ===== Dynamic map HUD overlay =====
+   The artwork in peru-map.png stays untouched. These small patches cover only
+   the baked-in HP / ENERGY / XP / COINS values and render live player data. */
+.map-hud-overlay{position:absolute;inset:0;z-index:19;pointer-events:none;color:#fff6dc;font-weight:900;text-shadow:2px 2px #000}
+.map-hud-hp{position:absolute;left:34.55%;top:4.05%;width:9.05%;height:3.65%;display:flex;align-items:center;gap:.42%;padding:0 .18%;background:#17110b}
+.map-hud-hp .map-heart{position:relative;width:18.4%;height:100%;display:block}
+.map-hud-hp .map-heart::before{content:"♥";position:absolute;inset:0;display:grid;place-items:center;color:#3b3833;font-size:clamp(10px,1.55vw,27px);line-height:1;filter:drop-shadow(1px 2px #000)}
+.map-hud-hp .map-heart.full::before{color:#ff493b}
+.map-hud-hp .map-heart.half::before{color:#3b3833}
+.map-hud-hp .map-heart.half::after{content:"♥";position:absolute;left:0;top:0;width:50%;height:100%;overflow:hidden;display:flex;align-items:center;color:#ff493b;font-size:clamp(10px,1.55vw,27px);line-height:1;filter:drop-shadow(1px 2px #000)}
+.map-hud-energy{position:absolute;left:51.45%;top:3.55%;width:12.35%;height:4.45%;display:grid;grid-template-columns:1fr 27%;align-items:center;gap:4%;padding:0 .25%;background:#17110b}
+.map-hud-xp{position:absolute;left:67.95%;top:3.55%;width:16.05%;height:4.45%;display:grid;grid-template-columns:48% 1fr;align-items:center;gap:6%;padding:0 .25%;background:#17110b}
+.map-hud-coins{position:absolute;left:88.75%;top:3.55%;width:3.15%;height:4.45%;display:flex;align-items:center;justify-content:flex-start;padding-left:.2%;background:#17110b}
+.map-hud-energy b,.map-hud-xp b,.map-hud-coins b{font-size:clamp(7px,1.05vw,18px);white-space:nowrap}
+.map-segment-bar{height:48%;display:grid;grid-template-columns:repeat(8,1fr);gap:1px;padding:2px;border:2px solid #080604;background:#28251f;box-shadow:inset 0 0 0 1px #4a4437}
+.map-segment-bar i{display:block;background:#393733}
+.map-segment-bar.energy i.on{background:linear-gradient(#b8f05c,#58a923)}
+.map-segment-bar.energy i.warm{background:linear-gradient(#ffed62,#d6a91b)}
+.map-segment-bar.xp i.on{background:linear-gradient(#7fd0ff,#287dcb)}

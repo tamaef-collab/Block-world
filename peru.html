@@ -17,6 +17,14 @@
       </button>
       <button class="name-button" id="nameButton" type="button"><span id="playerName">Mein Name</span><span aria-hidden="true">✎</span></button>
 
+      <!-- Dynamic HUD overlay: covers only the values baked into peru-map.png. -->
+      <div class="map-hud-overlay" aria-label="Spielstatus">
+        <div class="map-hud-hp" id="mapHudHearts" aria-label="100 Prozent Lebenspunkte"></div>
+        <div class="map-hud-energy"><div class="map-segment-bar energy" id="mapEnergyBar"></div><b id="mapEnergyText">100%</b></div>
+        <div class="map-hud-xp"><div class="map-segment-bar xp" id="mapXpBar"></div><b id="mapXpText">0 / 100</b></div>
+        <div class="map-hud-coins"><b id="mapCoinText">0</b></div>
+      </div>
+
       <div id="landmarks"></div>
       <button class="hotspot plant-hotspot" id="plantHotspot" type="button" aria-label="Pflanzengarten öffnen">
         <img class="entry-sprite tree-entry-sprite" src="assets/plant-entry-tree.png" alt="">
@@ -98,6 +106,8 @@
     </section>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="peru.js"></script>
 </body>
 </html>

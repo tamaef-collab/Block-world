@@ -44,6 +44,68 @@
   playerState.xp=Math.max(0,Number(playerState.xp ?? 0));
   playerState.coins=Math.max(0,Number(playerState.coins ?? 0));
 
+  // Supabase is the shared source of truth for HUD stats. Local storage remains
+  // a fallback so the page is still usable if the backend is temporarily offline.
+  let currentUserId=null;
+  let statsChannel=null;
+  const backend=(()=>{
+    if(!window.supabase || !window.BLOCKWORLD_SUPABASE) return null;
+    const storage={
+      getItem:key=>localStorage.getItem(key) || sessionStorage.getItem(key),
+      setItem:(key,value)=>{
+        if(localStorage.getItem(key)!==null) localStorage.setItem(key,value);
+        else sessionStorage.setItem(key,value);
+      },
+      removeItem:key=>{localStorage.removeItem(key);sessionStorage.removeItem(key);}
+    };
+    return window.supabase.createClient(
+      window.BLOCKWORLD_SUPABASE.url,
+      window.BLOCKWORLD_SUPABASE.anonKey,
+      {auth:{storage,persistSession:true,autoRefreshToken:true}}
+    );
+  })();
+
+  function applyServerStats(stats){
+    if(!stats) return;
+    playerState.hp=Math.max(0,Math.min(100,Number(stats.health ?? playerState.hp)));
+    playerState.energy=Math.max(0,Math.min(100,Number(stats.energy ?? playerState.energy)));
+    playerState.level=Math.max(1,Math.floor(Number(stats.level ?? playerState.level)));
+    playerState.xp=Math.max(0,Number(stats.experience ?? playerState.xp));
+    playerState.coins=Math.max(0,Number(stats.coins ?? playerState.coins));
+    localStorage.setItem("bw-player-state",JSON.stringify(playerState));
+    updateHud();
+  }
+
+  async function loadServerPlayer(){
+    if(!backend) return;
+    const {data:{session}}=await backend.auth.getSession();
+    currentUserId=session?.user?.id || null;
+    if(!currentUserId) return;
+    const [{data:stats},{data:profile}]=await Promise.all([
+      backend.from("player_stats").select("health,energy,level,experience,coins").eq("user_id",currentUserId).maybeSingle(),
+      backend.from("profiles").select("username,display_name").eq("id",currentUserId).maybeSingle()
+    ]);
+    applyServerStats(stats);
+    if(profile){
+      playerName=(profile.display_name || profile.username || playerName).trim();
+      localStorage.setItem("peru-name",playerName);
+      syncCharacter();
+    }
+    if(statsChannel) backend.removeChannel(statsChannel);
+    statsChannel=backend.channel(`player-stats-${currentUserId}`)
+      .on("postgres_changes",{event:"UPDATE",schema:"public",table:"player_stats",filter:`user_id=eq.${currentUserId}`},payload=>applyServerStats(payload.new))
+      .subscribe();
+  }
+
+  async function pushServerStats(){
+    if(!backend || !currentUserId) return;
+    const {error}=await backend.from("player_stats").update({
+      health:playerState.hp,energy:playerState.energy,level:playerState.level,
+      experience:playerState.xp,coins:playerState.coins
+    }).eq("user_id",currentUserId);
+    if(error) console.warn("HUD stats could not be synced:",error.message);
+  }
+
   let inventory=JSON.parse(localStorage.getItem("bw-inventory") || '{"items":[]}');
   inventory.items=Array.isArray(inventory.items)?inventory.items:[];
   // Convert older fruit/gem test saves into the new collection format.
@@ -59,7 +121,11 @@
   animalCare.actions=animalCare.actions || {};
   animalCare.lastChestCycle=Number(animalCare.lastChestCycle || 0);
 
-  function savePlayerState(){ localStorage.setItem("bw-player-state",JSON.stringify(playerState)); updateHud(); }
+  function savePlayerState(){
+    localStorage.setItem("bw-player-state",JSON.stringify(playerState));
+    updateHud();
+    void pushServerStats();
+  }
   function saveInventory(){ localStorage.setItem("bw-inventory",JSON.stringify(inventory)); renderInventory(); }
   function savePlantCare(){ localStorage.setItem("bw-plant-care",JSON.stringify(plantCare)); }
   function saveAnimalCare(){ localStorage.setItem("bw-animal-care",JSON.stringify(animalCare)); }
@@ -230,6 +296,7 @@
     const v=$("#nameInput").value.trim();
     if(!v) return;
     playerName=v; localStorage.setItem("peru-name",v); syncCharacter(); close("characterOverlay");
+    if(backend && currentUserId) void backend.from("profiles").update({display_name:v}).eq("id",currentUserId);
   });
 
 
@@ -291,24 +358,36 @@
   function updateHud(){
     const fullHearts=Math.floor(playerState.hp/20);
     const halfHeart=playerState.hp%20>=10;
-    $("#hudHearts").innerHTML=Array.from({length:5},(_,i)=>{
-      const cls=i<fullHearts?"heart full":(i===fullHearts && halfHeart?"heart half":"heart empty");
-      return `<i class="${cls}"></i>`;
-    }).join("");
+    const hearts=Array.from({length:5},(_,i)=>{
+      const cls=i<fullHearts?"full":(i===fullHearts && halfHeart?"half":"empty");
+      return cls;
+    });
+    $("#hudHearts").innerHTML=hearts.map(cls=>`<i class="heart ${cls}"></i>`).join("");
+    const mapHearts=$("#mapHudHearts");
+    if(mapHearts){
+      mapHearts.innerHTML=hearts.map(cls=>`<i class="map-heart ${cls}"></i>`).join("");
+      mapHearts.setAttribute("aria-label",`${playerState.hp} Prozent Lebenspunkte`);
+    }
 
     const energy=$("#energyBar"), xp=$("#xpBar");
-    energy.innerHTML=""; xp.innerHTML="";
+    const mapEnergy=$("#mapEnergyBar"), mapXp=$("#mapXpBar");
+    [energy,xp,mapEnergy,mapXp].forEach(el=>{if(el) el.innerHTML="";});
     const energySegments=Math.round(playerState.energy/12.5);
     const xpNeeded=xpNeededForLevel(playerState.level);
     const xpSegments=Math.round((playerState.xp/xpNeeded)*8);
     for(let i=0;i<8;i++){
-      energy.insertAdjacentHTML("beforeend",`<i class="${i<energySegments?"on":""}"></i>`);
-      xp.insertAdjacentHTML("beforeend",`<i class="${i<xpSegments?"on":""}"></i>`);
+      energy?.insertAdjacentHTML("beforeend",`<i class="${i<energySegments?"on":""}"></i>`);
+      xp?.insertAdjacentHTML("beforeend",`<i class="${i<xpSegments?"on":""}"></i>`);
+      mapEnergy?.insertAdjacentHTML("beforeend",`<i class="${i<energySegments?(i>=5?"on warm":"on"):""}"></i>`);
+      mapXp?.insertAdjacentHTML("beforeend",`<i class="${i<xpSegments?"on":""}"></i>`);
     }
     $("#energyText").textContent=`${playerState.energy}%`;
     $("#levelText").textContent=`LV ${playerState.level}`;
     $("#xpText").textContent=`${playerState.xp} / ${xpNeeded}`;
     $("#coinText").textContent=String(playerState.coins);
+    if($("#mapEnergyText")) $("#mapEnergyText").textContent=`${playerState.energy}%`;
+    if($("#mapXpText")) $("#mapXpText").textContent=`${playerState.xp} / ${xpNeeded}`;
+    if($("#mapCoinText")) $("#mapCoinText").textContent=String(playerState.coins);
   }
 
   function buildHud(){ updateHud(); }
@@ -542,7 +621,7 @@
     }
 
     actionState=kind;
-    actionUntil=performance.now()+(kind==="play"?3600:1600);
+    actionUntil=performance.now()+(kind==="play"?4200:2800);
 
     if(activeMode==="animal"){
       randomAnimalState=kind==="play"?"play":"stare";
@@ -573,13 +652,13 @@
         x:270+i*20, y:-25-i*8,
         vx:(Math.random()-.5)*.65,
         vy:1.0+Math.random()*.75,
-        life:190
+        life:58
       });
     }
   }
   function spawnHearts(){
     particles=[];
-    for(let i=0;i<10;i++) particles.push({type:"heart",x:320+Math.random()*140,y:270+Math.random()*40,vx:(Math.random()-.5)*.6,vy:-.8-Math.random(),life:120,color:"#ff5f93"});
+    for(let i=0;i<10;i++) particles.push({type:"heart",x:320+Math.random()*140,y:270+Math.random()*40,vx:(Math.random()-.5)*.6,vy:-.8-Math.random(),life:58,color:"#ff5f93"});
   }
   function spawnWater(){
     particles=[];
@@ -743,7 +822,7 @@
     drawUnderwaterScene(t);
     let x=360,y=235,rot=0,flip=false;
     if(actionState==="play" && t<actionUntil){
-      const p=Math.max(0,Math.min(1,1-(actionUntil-t)/3600));
+      const p=Math.max(0,Math.min(1,1-(actionUntil-t)/4200));
       const arc=Math.sin(p*Math.PI);
       x=260+p*270;
       y=268-arc*145;
@@ -776,7 +855,7 @@
 
       let x=385;
       if(explicitPlay){
-        const p=Math.max(0,Math.min(1,1-(actionUntil-t)/3600));
+        const p=Math.max(0,Math.min(1,1-(actionUntil-t)/4200));
         x=170+p*430+Math.sin(p*Math.PI*6)*10;
       }else{
         x=385+Math.sin(t/1300)*12;
@@ -912,6 +991,7 @@
 
   buildHud();
   syncCharacter();
+  void loadServerPlayer();
 })();
 
 
